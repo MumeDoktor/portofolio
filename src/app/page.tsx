@@ -220,6 +220,11 @@ export default function Home() {
                       <StatusDot status={p.status} />
                     </div>
                     <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">{p.tagline}</p>
+                    {p.related && (
+                      <p className="mt-3 font-mono text-[11px] uppercase tracking-wider text-accent">
+                        ↔ One system with {p.related.label}
+                      </p>
+                    )}
                     {p.flow && (
                       <p className="mt-4 font-mono text-xs leading-relaxed text-muted">
                         {p.flow.map((step, j) => {

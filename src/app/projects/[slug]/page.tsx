@@ -75,6 +75,19 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
             <p className="rise mt-6 max-w-3xl text-xl leading-relaxed text-muted [animation-delay:160ms] sm:text-2xl">
               {project.tagline}
             </p>
+            {project.related && (
+              <Link
+                href={`/projects/${project.related.slug}`}
+                className="rise mt-8 flex max-w-3xl flex-col gap-2 rounded-2xl border border-accent/40 bg-accent/[0.06] p-5 transition-colors [animation-delay:200ms] hover:border-accent"
+              >
+                <span className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-accent">
+                  Part of the same system <ArrowIcon className="size-3.5" />
+                </span>
+                <span className="font-serif text-2xl leading-tight">{project.related.label}</span>
+                <span className="text-sm leading-relaxed text-muted">{project.related.note}</span>
+              </Link>
+            )}
+
             {(project.links?.repo || project.links?.live || project.links?.store) && (
               <div className="rise mt-8 flex flex-wrap gap-3 [animation-delay:240ms]">
                 {project.links?.store && (

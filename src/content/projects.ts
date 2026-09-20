@@ -208,6 +208,8 @@ export type Project = {
   desktopFirst?: boolean;
   // Year heading to file this under, when it differs from the end of `year`.
   timelineYear?: string;
+  // The other half of the same system.
+  related?: { slug: string; label: string; note: string };
   roles?: Role[];
   // Key numbers shown under the header.
   stats?: Stat[];
@@ -1032,108 +1034,6 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: "tiktok-agent-control",
-    title: "TikTok Agent Control",
-    tagline: "An AI agent that runs a TikTok account's content: it reads the numbers, decides what to make, and builds the video.",
-    year: "2026",
-    status: "Prototype",
-    category: "AI & Agents",
-    role: "Solo: architecture, agents, dashboard",
-    summary:
-      "A control room where each TikTok account has its own agent. Mine is called Nova. It knows only its account: the analytics, the posts that worked and failed, and the content rules you set. It reads that data, writes an honest analysis of what's working, decides what to make next and produces the clip.\n\nYou can ask for a video in the chat or switch on Autopilot, which makes three videos a week timed to the account's best posting slots and notifies you when each one is ready. Posting stays with you. The app never publishes on its own.",
-    highlights: [
-      "One agent per account with layered memory: a binding content profile, standing directives distilled from chat (say \"stop using trending audio\" once and it holds), and live data.",
-      "Account analysis written by Claude from real numbers: which topics and lengths carry the account, when posting works, and what is dragging the median down.",
-      "Autopilot that schedules three videos a week from the account's own best times, starting each build three hours before its slot, with a Windows notification when it's done.",
-      "Video production pipeline: find a source (long YouTube interviews, or public-domain footage from DVIDS and the Internet Archive), turn captions into sentences, pick the moment, then cut and caption it.",
-      "Two render paths: Remotion for finished clips, or a bridge to my After Effects agent that leaves an edit in an AE project for a human to review.",
-      "Rights-first safety rails: footage starts as unverified, music comes only from a folder the owner filled, and the app keeps read-only access so it can't post.",
-      "Background worker where every step is a row in a jobs table with retries and exponential backoff, so one failed download never stalls the pipeline.",
-      "Dashboard with follower and view trends, per-video stats, the agent chat and a live log of what the agent is doing and why.",
-    ],
-    architecture: [
-      {
-        label: "Dashboard",
-        nodes: [{ name: "Next.js app", detail: "Accounts, audience charts, videos, agent chat, clips and autopilot.", mine: "Built solo" }],
-      },
-      {
-        label: "Agent & worker",
-        nodes: [
-          { name: "Nova (per account)", detail: "Claude Opus 5 / Sonnet 5 with the account's profile, memory and live data.", mine: "Built solo" },
-          { name: "Worker", detail: "Sync, analysis, sourcing, clipping and rendering as retryable jobs.", mine: "Built solo" },
-          { name: "SQLite + Drizzle", detail: "Accounts, snapshots, posts, jobs, chats and memory." },
-        ],
-      },
-      {
-        label: "Media",
-        nodes: [
-          { name: "yt-dlp + ffmpeg", detail: "Download sources and cut them." },
-          { name: "Remotion", detail: "Renders finished 1080×1920 clips." },
-          { name: "After Effects agent", detail: "Builds the edit inside After Effects for review.", mine: "My other project" },
-        ],
-      },
-    ],
-    flow: [
-      { title: "Sync the account", where: "Worker", detail: "Followers, views, likes and per-video stats are pulled into snapshots." },
-      { title: "Read the numbers", where: "Claude", detail: "Nova writes what's actually working and what to make next, from live data only." },
-      { title: "Find the source", where: "yt-dlp · DVIDS", detail: "A long interview or public-domain footage that tells the chosen story." },
-      { title: "Cut the clip", where: "ffmpeg · Remotion · AE", detail: "Captions become sentences, the moment is picked, then it's cut, captioned and rendered." },
-      { title: "Hand it over", where: "You", detail: "A notification says the clip is ready. You review it and post it yourself." },
-    ],
-    stats: [
-      {
-        value: "~14,000",
-        label: "lines of TypeScript"
-      },
-      {
-        value: "14",
-        label: "database tables"
-      },
-      {
-        value: "14",
-        label: "agent modules"
-      },
-      {
-        value: "20",
-        label: "integrations: sources, media, voice and rendering"
-      }
-    ],
-    challenges: [
-      {
-        problem: "An agent that makes up numbers is worse than no agent.",
-        solution: "Nova may only quote numbers from live data and has to say when something is missing. Its analysis is rebuilt from fresh snapshots."
-      },
-      {
-        problem: "Downloading and rendering video is slow and often fails.",
-        solution: "Each step is a job with retries and exponential backoff, run by a separate worker so the dashboard stays fast."
-      },
-      {
-        problem: "Remotion needs React 18, but the app runs on React 19.",
-        solution: "Remotion lives in its own workspace and is driven through its command line: settings go in as JSON and a finished mp4 comes out."
-      },
-      {
-        problem: "Footage rights: archive.org mirrors a lot of copyrighted material.",
-        solution: "Sources are limited to verifiable public-domain collections, clips start as unverified, and music only comes from a folder the owner filled."
-      },
-      {
-        problem: "Podcast captions arrive as one long stream of words.",
-        solution: "They're grouped into sentences first, so cuts, captions and effects land on real sentence boundaries."
-      }
-    ],
-    learned: [
-      "Designing an agent with memory that the user can steer in plain language.",
-      "Building long-running pipelines that recover from failures on their own.",
-      "Treating rights and safety as product requirements, not an afterthought."
-    ],
-    stack: ["Next.js", "TypeScript", "Claude", "SQLite", "Drizzle", "ffmpeg", "yt-dlp", "Remotion", "Zod"],
-    desktop: [
-      { src: ttAgent, caption: "Account: autopilot, Nova chat and clips it made" },
-      { src: ttAudience, caption: "Audience trends and Nova's analysis" },
-      { src: ttVideos, caption: "Videos, most viewed first" },
-      { src: ttAccounts, caption: "Accounts overview" },
-    ],
-  },
-  {
     slug: "ai-interview-coach",
     title: "AI Interview Coach",
     tagline: "Paste a real job posting, then take a live voice interview against an AI that plays the interviewer.",
@@ -1246,6 +1146,113 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: "tiktok-agent-control",
+    title: "TikTok Agent Control",
+    tagline: "An AI agent that runs a TikTok account's content: it reads the numbers, decides what to make, and builds the video.",
+    year: "2026",
+    status: "Prototype",
+    category: "AI & Agents",
+    role: "Solo: architecture, agents, dashboard",
+    summary:
+      "A control room where each TikTok account has its own agent. Mine is called Nova. It knows only its account: the analytics, the posts that worked and failed, and the content rules you set. It reads that data, writes an honest analysis of what's working, decides what to make next and produces the clip.\n\nYou can ask for a video in the chat or switch on Autopilot, which makes three videos a week timed to the account's best posting slots and notifies you when each one is ready. Posting stays with you. The app never publishes on its own.",
+    highlights: [
+      "One agent per account with layered memory: a binding content profile, standing directives distilled from chat (say \"stop using trending audio\" once and it holds), and live data.",
+      "Account analysis written by Claude from real numbers: which topics and lengths carry the account, when posting works, and what is dragging the median down.",
+      "Autopilot that schedules three videos a week from the account's own best times, starting each build three hours before its slot, with a Windows notification when it's done.",
+      "Video production pipeline: find a source (long YouTube interviews, or public-domain footage from DVIDS and the Internet Archive), turn captions into sentences, pick the moment, then cut and caption it.",
+      "Two render paths: Remotion for finished clips, or a bridge to my After Effects agent that leaves an edit in an AE project for a human to review.",
+      "Rights-first safety rails: footage starts as unverified, music comes only from a folder the owner filled, and the app keeps read-only access so it can't post.",
+      "Background worker where every step is a row in a jobs table with retries and exponential backoff, so one failed download never stalls the pipeline.",
+      "Dashboard with follower and view trends, per-video stats, the agent chat and a live log of what the agent is doing and why.",
+    ],
+    architecture: [
+      {
+        label: "Dashboard",
+        nodes: [{ name: "Next.js app", detail: "Accounts, audience charts, videos, agent chat, clips and autopilot.", mine: "Built solo" }],
+      },
+      {
+        label: "Agent & worker",
+        nodes: [
+          { name: "Nova (per account)", detail: "Claude Opus 5 / Sonnet 5 with the account's profile, memory and live data.", mine: "Built solo" },
+          { name: "Worker", detail: "Sync, analysis, sourcing, clipping and rendering as retryable jobs.", mine: "Built solo" },
+          { name: "SQLite + Drizzle", detail: "Accounts, snapshots, posts, jobs, chats and memory." },
+        ],
+      },
+      {
+        label: "Media",
+        nodes: [
+          { name: "yt-dlp + ffmpeg", detail: "Download sources and cut them." },
+          { name: "Remotion", detail: "Renders finished 1080×1920 clips." },
+          { name: "After Effects agent", detail: "Builds the edit inside After Effects for review.", mine: "My other project" },
+        ],
+      },
+    ],
+    flow: [
+      { title: "Sync the account", where: "Worker", detail: "Followers, views, likes and per-video stats are pulled into snapshots." },
+      { title: "Read the numbers", where: "Claude", detail: "Nova writes what's actually working and what to make next, from live data only." },
+      { title: "Find the source", where: "yt-dlp · DVIDS", detail: "A long interview or public-domain footage that tells the chosen story." },
+      { title: "Cut the clip", where: "ffmpeg · Remotion · AE", detail: "Captions become sentences, the moment is picked, then it's cut, captioned and rendered." },
+      { title: "Hand it over", where: "You", detail: "A notification says the clip is ready. You review it and post it yourself." },
+    ],
+    stats: [
+      {
+        value: "~14,000",
+        label: "lines of TypeScript"
+      },
+      {
+        value: "14",
+        label: "database tables"
+      },
+      {
+        value: "14",
+        label: "agent modules"
+      },
+      {
+        value: "20",
+        label: "integrations: sources, media, voice and rendering"
+      }
+    ],
+    challenges: [
+      {
+        problem: "An agent that makes up numbers is worse than no agent.",
+        solution: "Nova may only quote numbers from live data and has to say when something is missing. Its analysis is rebuilt from fresh snapshots."
+      },
+      {
+        problem: "Downloading and rendering video is slow and often fails.",
+        solution: "Each step is a job with retries and exponential backoff, run by a separate worker so the dashboard stays fast."
+      },
+      {
+        problem: "Remotion needs React 18, but the app runs on React 19.",
+        solution: "Remotion lives in its own workspace and is driven through its command line: settings go in as JSON and a finished mp4 comes out."
+      },
+      {
+        problem: "Footage rights: archive.org mirrors a lot of copyrighted material.",
+        solution: "Sources are limited to verifiable public-domain collections, clips start as unverified, and music only comes from a folder the owner filled."
+      },
+      {
+        problem: "Podcast captions arrive as one long stream of words.",
+        solution: "They're grouped into sentences first, so cuts, captions and effects land on real sentence boundaries."
+      }
+    ],
+    learned: [
+      "Designing an agent with memory that the user can steer in plain language.",
+      "Building long-running pipelines that recover from failures on their own.",
+      "Treating rights and safety as product requirements, not an afterthought."
+    ],
+    stack: ["Next.js", "TypeScript", "Claude", "SQLite", "Drizzle", "ffmpeg", "yt-dlp", "Remotion", "Zod"],
+    related: {
+      slug: "agentic-video-editing",
+      label: "Agentic Video Editing",
+      note: "Two halves of one system. This side watches the account and decides what to make; the editing agent builds the clip inside After Effects and hands back a project to review.",
+    },
+    desktop: [
+      { src: ttAgent, caption: "Account: autopilot, Nova chat and clips it made" },
+      { src: ttAudience, caption: "Audience trends and Nova's analysis" },
+      { src: ttVideos, caption: "Videos, most viewed first" },
+      { src: ttAccounts, caption: "Accounts overview" },
+    ],
+  },
+  {
     slug: "agentic-video-editing",
     title: "Agentic Video Editing",
     tagline: "AI agents that operate After Effects: they edit, render a frame, look at it, and fix their own mistakes.",
@@ -1254,7 +1261,7 @@ export const projects: Project[] = [
     category: "AI & Agents",
     role: "Solo: research, PRD, architecture, build",
     summary:
-      "The goal is to take the editing style of a reference video (pacing, typography, motion intensity, where the emphasis lands) and apply it to new footage in After Effects, without an expert doing it frame by frame.\n\nAgents drive After Effects through a bridge I wrote, render frames, look at them with vision, and correct what's wrong. It's also the editor behind TikTok Agent Control, which hands it clips to build.",
+      "The goal is to take the editing style of a reference video (pacing, typography, motion intensity, where the emphasis lands) and apply it to new footage in After Effects, without an expert doing it frame by frame.\n\nAgents drive After Effects through a bridge I wrote, render frames, look at them with vision, and correct what's wrong. It is also the editor behind TikTok Agent Control: that agent picks the story, the source and the narration, then hands the footage here. What comes back is not a finished file but an edit sitting in an After Effects project, ready for a person to review and export.",
     highlights: [
       "Built an ExtendScript file-IPC bridge so an agent can run After Effects operations unattended and get structured results back.",
       "Proved the loop with an injected fault: a text layer is secretly placed off-centre, and the only way to catch it is to render a frame and look. The agent finds and fixes it.",
@@ -1334,6 +1341,11 @@ export const projects: Project[] = [
       "Coordinating several agents without a framework."
     ],
     stack: ["TypeScript", "Anthropic SDK", "Zod", "After Effects", "ExtendScript", "ffmpeg"],
+    related: {
+      slug: "tiktok-agent-control",
+      label: "TikTok Agent Control",
+      note: "Two halves of one system. The agent that watches the account decides what to make, then hands the source and the narration over here to be edited.",
+    },
   },
 ];
 
