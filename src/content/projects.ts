@@ -768,7 +768,10 @@ export const projects: Project[] = [
       "AI weekly nutrition plans matched to calorie targets and diet type (including halal, vegetarian and vegan), with daily adjustments and supplement validation.",
       "Progress analytics built with fl_chart: weight trends, weekly volume per muscle, exercise history and PRs, body measurements and private progress photos in Firebase Storage.",
       "Scheduled push and local notifications: meal reminders, weigh-ins, rest days and cooldowns after training.",
-      "Monetisation with a paywall and Lemon Squeezy checkout and webhooks (after an earlier Paddle integration), secured with Firebase App Check, Firestore and Storage rules and token-verified HTTP functions.",
+      "Payments through Lemon Squeezy instead of Google Play billing: Google Play's merchant payments aren't available to developers in Bosnia and Herzegovina, so I took the subscription off-platform.",
+      "Lemon Squeezy acts as merchant of record: it runs the checkout, takes the card payment, handles VAT and tax across countries and pays out to me, so a solo developer doesn't have to register as a merchant in each market.",
+      "A webhook from Lemon Squeezy updates the subscription in Firestore, so the paywall reads one source of truth wherever the payment happened. I integrated Paddle first and moved to Lemon Squeezy.",
+      "Security: Firebase App Check, Firestore and Storage rules, and token-verified HTTP functions.",
       "Marketing website in React and TypeScript with product videos, pricing, privacy policy, terms and an account-deletion page.",
     ],
     architecture: [
@@ -800,7 +803,7 @@ export const projects: Project[] = [
         label: "External",
         nodes: [
           { name: "OpenAI", detail: "Plans, coaching, analysis and nutrition." },
-          { name: "Lemon Squeezy", detail: "Checkout and subscription webhooks." },
+          { name: "Lemon Squeezy", detail: "Merchant of record: checkout, cards, VAT and payouts, with a webhook back into Firestore." },
         ],
       },
     ],
@@ -843,8 +846,12 @@ export const projects: Project[] = [
         solution: "Every OpenAI call runs in Cloud Functions, which verify the user's token and are protected by Firebase App Check."
       },
       {
-        problem: "Subscriptions have to stay in sync with the payment provider.",
-        solution: "A checkout function and a Lemon Squeezy webhook update the user's subscription in Firestore, so the paywall reads one source of truth. The website first used Paddle before I moved it to Lemon Squeezy."
+        problem: "Google Play billing, the obvious way to charge for an Android app, wasn't open to me: Google Play's merchant payments aren't supported for developers in Bosnia and Herzegovina.",
+        solution: "I took the subscription off-platform and used Lemon Squeezy as merchant of record. It runs the checkout and handles cards, VAT and payouts across countries, so I never touch card data. Being shut out of the default route meant designing the payment flow myself."
+      },
+      {
+        problem: "With the payment happening outside the app, the app still has to know who is subscribed.",
+        solution: "A checkout function and a Lemon Squeezy webhook update the subscription on the user in Firestore, so the paywall reads one source of truth wherever the payment came from. I integrated Paddle first and moved to Lemon Squeezy."
       },
       {
         problem: "Reminders only help if they arrive at the right moment.",
@@ -855,7 +862,8 @@ export const projects: Project[] = [
       "Shipping a product alone: design, app, backend, payments, website, legal pages and a Google Play release.",
       "Getting reliable, structured output from an AI model and checking it before it touches user data.",
       "Serverless backends: HTTP functions, database triggers and scheduled jobs.",
-      "Everything around the code that makes it a real product: privacy policy, account deletion and pricing."
+      "Everything around the code that makes it a real product: privacy policy, account deletion and pricing.",
+      "That where you live can shape your architecture: with Google Play billing closed to developers in Bosnia, the whole payment flow had to be built around a merchant of record instead."
     ],
     stack: ["Flutter", "Dart", "BLoC", "Firebase", "Cloud Functions", "Firestore", "OpenAI", "Lemon Squeezy", "fl_chart", "React", "TypeScript"],
     links: {

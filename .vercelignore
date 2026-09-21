@@ -1,0 +1,3 @@
+# Source recordings kept for reference only. The site serves the compressed
+# copies from public/media, so these never need to reach the deployment.
+assets/**/*.mp4
