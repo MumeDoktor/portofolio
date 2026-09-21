@@ -13,9 +13,9 @@ export const profile = {
     "20-year-old software engineer with 3 years of professional experience. I ship Flutter apps, full-stack web platforms and AI agents that do real work.",
   about: [
     "I wrote my first lines of code at 16. Four years later I build mobile apps, web platforms and AI agents, and I've shipped my own app to Google Play.",
-    "I'm based in Sarajevo and in my first year at the Faculty of Information Technologies at Džemal Bijedić University of Mostar. I started professionally with a four-month internship at P23, where a senior developer mentored us through React, Git and Flutter. I then joined P23's team building Corner Table, a hospitality social app for founders in New York, and built the registration flow, profiles, chat and group messaging, venues and cities in its Flutter MVP on Firebase. After that, still at P23, I worked on GiBud, a rebuild of a Norwegian auction marketplace: I built the Flutter mobile app on my own, plus API endpoints, checkout and seller tools on the Next.js platform.",
-    "Those jobs taught me how production apps actually work: real-time data on Firestore, push notifications with FCM, typed APIs and database transactions.",
-    "Outside of work I build AI products end to end, like FitMind AI, a fitness coach app I published on Google Play on my own. What I care about most is making AI dependable, with typed contracts between the model and the rest of the system, deterministic code wherever a model isn't needed, and feedback loops so an agent checks its own output instead of being trusted blindly.",
+    "I'm based in Sarajevo and in my first year at the Faculty of Information Technologies at Džemal Bijedić University of Mostar.",
+    "My path so far: a four-month internship at P23, then a move to the team building Corner Table, where I worked as a junior developer. After that I stayed at P23 as team lead on GiBud, alongside remote full-stack work for CreditGenius. What I actually built on each one is on the project pages.",
+    "Outside of work I build my own products end to end. What I care about most is making AI dependable: typed contracts between the model and the rest of the system, deterministic code wherever a model isn't needed, and feedback loops so an agent checks its own output instead of being trusted blindly.",
   ],
   email: "amarmuminovic2712@gmail.com",
   links: [
