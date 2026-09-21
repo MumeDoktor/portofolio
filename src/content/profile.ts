@@ -8,13 +8,13 @@ export const profile = {
   startedCodingAt: 16,
   yearsExperience: 3,
   location: "Sarajevo, Bosnia and Herzegovina",
-  availability: "Open to remote projects",
+  availability: "Available now, full-time or part-time",
   tagline:
-    "20-year-old software engineer with 3 years of professional experience. I ship Flutter apps, full-stack web platforms and AI agents that do real work.",
+    "Software engineer with 3 years of professional experience. I ship Flutter apps, full-stack web platforms and AI agents that do real work — including my own app, live on Google Play.",
   about: [
     "I wrote my first lines of code at 16. Four years later I build mobile apps, web platforms and AI agents, and I've shipped my own app to Google Play.",
     "I'm based in Sarajevo and in my first year at the Faculty of Information Technologies at Džemal Bijedić University of Mostar.",
-    "My path so far: a four-month internship at P23, then a move to the team building Corner Table, where I worked as a junior developer. After that I stayed at P23 as team lead on GiBud, alongside remote full-stack work for CreditGenius. What I actually built on each one is on the project pages.",
+    "My path so far: a four-month internship at P23, then a move to the team building Corner Table, where I worked as a junior developer. After that came GiBud, still at P23, where the work went from mobile into the web platform as well, and remote full-stack work for CreditGenius. What I actually built on each one is on the project pages.",
     "Outside of work I build my own products end to end. What I care about most is making AI dependable: typed contracts between the model and the rest of the system, deterministic code wherever a model isn't needed, and feedback loops so an agent checks its own output instead of being trusted blindly.",
   ],
   email: "amarmuminovic2712@gmail.com",
@@ -22,8 +22,8 @@ export const profile = {
     { label: "LinkedIn", href: "https://www.linkedin.com/in/amar-muminovi%C4%87-ab91b6353/" },
     { label: "GitHub", href: "https://github.com/MumeDoktor" },
   ],
-  // TODO: drop a PDF at public/cv.pdf and set this to "/cv.pdf" to show a download button.
-  cvUrl: "",
+  // Built by cv/build.mjs (general variant) and copied to public/cv/.
+  cvUrl: "/cv/Amar-Muminovic-CV.pdf",
 };
 
 export const education: { school: string; detail: string; period: string }[] = [
@@ -78,37 +78,38 @@ export const experience: Experience[] = [
   },
   {
     company: "P23",
-    role: "Junior Software Engineer",
+    role: "Junior Full-Stack Developer, Mobile & Web",
     start: "Jun 2023",
-    end: "Jan 2025",
-    summary:
-      "Hired straight after the internship to build client products. I worked on Corner Table, a hospitality social app for founders in New York, delivered as a Flutter MVP on Firebase.",
-    points: [
-      "Built the registration flow together with a colleague, plus the profile and edit-profile screens.",
-      "Built the in-app chat from scratch on Firestore, with real-time messages, group chats and role-aware replies so only staff with permission answer for a venue.",
-      "Built the venues and cities sections, with searchable, sortable lists and detail pages.",
-      "Built push notifications with Firebase Cloud Messaging, including device token handling and several notification types, each opening the right screen.",
-      "Worked in a product team: designs from a designer, code review, and shipping on client timelines.",
-    ],
-    stack: ["Flutter", "Dart", "BLoC", "Firebase", "Firestore", "Firebase Cloud Messaging"],
-    projects: [{ slug: "corner-table", label: "Corner Table" }],
-  },
-  {
-    company: "P23",
-    role: "Team Lead",
-    start: "Jan 2025",
     end: "Jan 2026",
     summary:
-      "Led the development of GiBud, a commercial auction and e-commerce platform for the Norwegian market, as Mobile Lead and Web Team Lead.",
+      "Hired straight after the internship to build client products, first on mobile and then across mobile and web. Corner Table, a hospitality social app for founders in New York, was delivered as a Flutter MVP on Firebase. GiBud, a commercial auction and e-commerce platform for the Norwegian market, was built by a team of four — I was the only developer on its Flutter app.",
     points: [
-      "Sole developer of the Flutter mobile app: architecture, state management with BLoC, performance and user experience.",
-      "Designed and implemented backend systems with Next.js API routes, Prisma and PostgreSQL, serving both the mobile app and the website.",
+      "Built the in-app chat for Corner Table from scratch on Firestore, with real-time messages, group chats and role-aware replies so only staff with permission answer for a venue.",
+      "Built the venues and cities sections, with searchable, sortable lists and detail pages, plus the registration flow with a colleague and the profile and edit-profile screens.",
+      "Built push notifications with Firebase Cloud Messaging, including device token handling and several notification types, each opening the right screen.",
+      "Sole developer of the GiBud Flutter app: architecture, state management with BLoC, performance and user experience.",
+      "Built backend endpoints with Next.js API routes, Prisma and PostgreSQL, serving both the mobile app and the website.",
       "Built real-time features: live auctions, bidding, chat and notifications over Ably.",
-      "Implemented authentication, role-based access control and secure data flows across the platform.",
-      "Contributed to system architecture, database design and deployment workflows.",
+      "Supported three colleagues on the team: helping them when they got stuck, talking through how to approach a problem, and reviewing pull requests.",
     ],
-    stack: ["Flutter", "BLoC", "Next.js", "TypeScript", "Prisma", "PostgreSQL", "Ably", "Cloudflare R2"],
-    projects: [{ slug: "gibud", label: "GiBud" }],
+    stack: [
+      "Flutter",
+      "Dart",
+      "BLoC",
+      "Firebase",
+      "Firestore",
+      "Firebase Cloud Messaging",
+      "Next.js",
+      "TypeScript",
+      "Prisma",
+      "PostgreSQL",
+      "Ably",
+      "Cloudflare R2",
+    ],
+    projects: [
+      { slug: "corner-table", label: "Corner Table" },
+      { slug: "gibud", label: "GiBud" },
+    ],
   },
   {
     company: "CreditGenius",
@@ -133,8 +134,8 @@ export const experience: Experience[] = [
 
 export const skills: { group: string; items: string[] }[] = [
   {
-    group: "Languages",
-    items: ["TypeScript", "JavaScript", "Dart", "Python", "SQL"],
+    group: "Programming languages",
+    items: ["TypeScript", "JavaScript", "Dart", "C#", "Python", "SQL"],
   },
   {
     group: "Mobile",

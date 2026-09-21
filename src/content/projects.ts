@@ -175,6 +175,17 @@ export type ArchLayer = {
   nodes: { name: string; detail: string; mine?: string }[];
 };
 
+export type Brief = {
+  // The problem the product exists to solve.
+  problem: string;
+  // What I personally did, kept separate from what the team did.
+  contribution: string;
+  // What came of it.
+  result: string;
+  // Where each part actually stands today, e.g. mobile vs web.
+  shipping?: { label: string; value: string }[];
+};
+
 export type Stat = { value: string; label: string };
 
 export type Challenge = { problem: string; solution: string };
@@ -222,6 +233,8 @@ export type Project = {
   // The other half of the same system.
   related?: { slug: string; label: string; note: string };
   roles?: Role[];
+  // Problem, my contribution and result, shown above the screenshots.
+  brief?: Brief;
   // Key numbers shown under the header.
   stats?: Stat[];
   challenges?: Challenge[];
@@ -260,6 +273,14 @@ export const projects: Project[] = [
     status: "Completed",
     category: "Full-stack",
     role: "Solo: high-school graduation project",
+    brief: {
+      problem: "My school ran its library on paper. Lending, returns, student records and the reading room were tracked by hand, and nobody could see what was out on loan without opening a notebook.",
+      contribution: "Everything: the database, the REST API, the librarian panel and the student portal. I was 17 and built it before AI assistants were any use, so every endpoint and every screen is written by hand.",
+      result: "One system with two apps behind a single login, finished and presented as my secondary-school graduation project.",
+      shipping: [
+        { label: "Web app", value: "Completed and presented; ran locally, never deployed publicly" },
+      ],
+    },
     summary:
       "Biblioteka (Bosnian for \"library\") was my high-school graduation project. I built it at 17, in my third year: a complete system for running a school library and its reading room. The librarian manages books, students and loans, and students borrow books and reserve a seat to study.\n\nThis was 2024, when AI coding tools were still early and unreliable for a project this size, so I wrote almost every line by hand and worked through problems with documentation and forums. It isn't my most complex project today, but it's the one where I learned the most. It was the first time I built a whole product on my own: a React front end with separate librarian and student apps, and an Express API over MongoDB with hashed passwords, JWT sessions and image uploads.",
     highlights: [
@@ -279,22 +300,10 @@ export const projects: Project[] = [
       { title: "Giveaway", where: "Admin panel", detail: "Choose the prize books and spin the wheel." },
     ],
     stats: [
-      {
-        value: "17",
-        label: "my age when I built it"
-      },
-      {
-        value: "~5,500",
-        label: "lines of JavaScript, written by hand"
-      },
-      {
-        value: "~30",
-        label: "API endpoints"
-      },
-      {
-        value: "2",
-        label: "apps in one: librarian panel and student portal"
-      }
+      { value: "17", label: "my age when I built it" },
+      { value: "2", label: "apps in one: librarian panel and student portal" },
+      { value: "~30", label: "REST endpoints, written without AI help" },
+      { value: "5", label: "flows end to end: lending, returns, seats, students, giveaway" },
     ],
     challenges: [
       {
@@ -343,6 +352,15 @@ export const projects: Project[] = [
     status: "Delivered",
     category: "Mobile",
     role: "Flutter engineer on P23's MVP team",
+    brief: {
+      problem: "Founders in New York wanted a social app for hospitality: guests, venues and the staff who run them in one product they could put in front of real users.",
+      contribution: "In-app chat and group messaging on Firestore, the venues and cities sections, push notifications end to end, and the registration flow together with a colleague, plus the profile and edit-profile screens.",
+      result: "The MVP was delivered to the client. A later phase followed that I did not work on.",
+      shipping: [
+        { label: "Mobile app (Flutter)", value: "MVP delivered to the client" },
+        { label: "Later phases", value: "Built without me" },
+      ],
+    },
     summary:
       "Corner Table is a New York hospitality product built by P23 for its founders. Bartenders and staff already know their regulars, and the app turns that recognition into something real.\n\nYou can't just call yourself a regular or say you work somewhere. A guest requests regular status and the venue's staff confirm it, and someone joining a venue's team requests a role that a manager approves. I worked on the MVP's Flutter app: the registration flow (with a colleague), profiles, chat and group messaging, the venues and cities sections, and the notifications that tie them together. The MVP was delivered and handed over to the client, and later became the foundation for a broader industry network built by another P23 team.",
     highlights: [
@@ -510,7 +528,16 @@ export const projects: Project[] = [
     year: "2025",
     status: "Shipped",
     category: "Full-stack",
-    role: "Mobile Lead & Web Team Lead at P23",
+    role: "Junior Full-Stack Developer at P23 · sole developer of the mobile app",
+    brief: {
+      problem: "GiBud sells and auctions goods in Norway. The website existed; the native app people would actually bid from did not.",
+      contribution: "I was the only developer on the Flutter app — architecture, state management and every screen — and I also built or changed the API routes it depends on for auctions, bids, cart, checkout and purchases. In a team of four, I helped colleagues work through problems they were stuck on and reviewed pull requests.",
+      result: "The web platform is live in Norway. The mobile app is built and release-ready, waiting on its Google Play release.",
+      shipping: [
+        { label: "Web platform", value: "Live at gibud.no" },
+        { label: "Mobile app (Flutter)", value: "Release-ready, not yet published on Google Play" },
+      ],
+    },
     summary:
       "GiBud is a Norwegian marketplace where people list items and sell them by auction. As part of my job at P23, we rebuilt it from the ground up as one Next.js codebase that serves the public site, an admin dashboard and a versioned API for the mobile app.\n\nI built the GiBud mobile app on my own in Flutter for iOS and Android, and worked across the backend and the seller side of the web platform: the API the mobile app uses to browse auctions, place bids and check out, the checkout that turns a cart into purchases, item listings with media storage, invoices for sellers and the chat endpoints. The new website is live at gibud.no, and the mobile app is heading to Google Play soon.",
     highlights: [
@@ -626,22 +653,10 @@ export const projects: Project[] = [
       },
     ],
     stats: [
-      {
-        value: "~13,700",
-        label: "lines of Dart in the mobile app I built alone"
-      },
-      {
-        value: "128 / 134",
-        label: "mobile app commits are mine"
-      },
-      {
-        value: "11 · 34",
-        label: "app screens · BLoCs and Cubits"
-      },
-      {
-        value: "22",
-        label: "API routes I built or changed on the web platform"
-      }
+      { value: "1", label: "developer on the mobile app: architecture, state and release build" },
+      { value: "11", label: "app screens, from browsing and bidding to cart and checkout" },
+      { value: "Live", label: "bidding over Ably: price, history and countdown update in place" },
+      { value: "22", label: "API routes I built or changed on the web platform" },
     ],
     challenges: [
       {
@@ -678,6 +693,14 @@ export const projects: Project[] = [
     status: "Shipped",
     category: "Full-stack",
     role: "Full-Stack Developer · remote",
+    brief: {
+      problem: "A credit platform has to keep money moving: reports and subscriptions get billed, and micro-loan repayments still have to be collected when a payment fails.",
+      contribution: "Remote work, mostly on the backend: ASP.NET Core services, database schemas and queries, REST endpoints, and payment and subscription flows — including the automatic re-collection of failed micro-loan repayments. I also built Angular features and internal tools on top of those services.",
+      result: "The work went into a production platform, alongside senior engineers who reviewed the database design and the deployments.",
+      shipping: [
+        { label: "Platform", value: "In production. A client system, so there are no screenshots here" },
+      ],
+    },
     summary:
       "CreditGenius is a credit platform: credit reports and scores, subscriptions, billing and micro-loans, built on ASP.NET Core with SQL Server and AWS.\n\nI worked on it remotely, mostly on the backend: services, database schemas and queries, REST endpoints and the payment and subscription flows, including the automatic retry of failed micro-loan repayments. When a scheduled repayment doesn't go through, the loan can't be left unpaid, so the system tries again on a schedule instead of waiting for someone to notice. I also built Angular features and internal tools on top of those services.",
     highlights: [
@@ -757,6 +780,16 @@ export const projects: Project[] = [
     status: "Shipped",
     category: "Mobile",
     role: "Solo: product, Flutter app, backend, website",
+    brief: {
+      problem: "A training plan is written once and then ignores what actually happened: the sessions you skipped, the weights that went up, the weeks you lost.",
+      contribution: "All of it, alone: the product, the Flutter app, the Firebase backend and Cloud Functions, the website, the payment flow and the Play Store release.",
+      result: "Published on Google Play. Subscriptions run through Lemon Squeezy as merchant of record, because Google Play's merchant payments are not available to developers in Bosnia and Herzegovina.",
+      shipping: [
+        { label: "Android app", value: "Live on Google Play" },
+        { label: "Website", value: "Live at fitmind-ai-web.vercel.app" },
+        { label: "iOS", value: "Not released" },
+      ],
+    },
     summary:
       "FitMind AI is a fitness app I designed, built and published on my own. A short onboarding turns your goal, experience, equipment and limits into a personalised training plan. During each workout it tells you exactly what weight to lift, and every month it recalibrates the whole plan from your real progress.\n\nThe app is Flutter with BLoC on Firebase. 24 Cloud Functions do the heavy lifting: OpenAI-powered plan generation and adaptation, workout and exercise-form analysis, exercise swaps, the AI coach chat, nutrition plans, scheduled reminders and Lemon Squeezy payments. I also built the marketing website that sells it. FitMind AI went live on Google Play in July 2026.",
     highlights: [
@@ -773,6 +806,7 @@ export const projects: Project[] = [
       "A webhook from Lemon Squeezy updates the subscription in Firestore, so the paywall reads one source of truth wherever the payment happened. I integrated Paddle first and moved to Lemon Squeezy.",
       "Security: Firebase App Check, Firestore and Storage rules, and token-verified HTTP functions.",
       "Marketing website in React and TypeScript with product videos, pricing, privacy policy, terms and an account-deletion page.",
+      "Took the app through Google Play's release process alone: internal testing, then closed testing, then open testing, then production — including the store listing, the data-safety form and the policy requirements each track adds.",
     ],
     architecture: [
       {
@@ -812,34 +846,26 @@ export const projects: Project[] = [
       { title: "AI builds the plan", where: "Cloud Functions", detail: "generatePlan creates a 4-week block and a matching nutrition plan, saved to Firestore." },
       { title: "Train with guidance", where: "App · AI", detail: "Each exercise shows sets, reps, rest and an AI-suggested weight based on your last session. Swap exercises when needed." },
       { title: "Coach, eat, track", where: "Triggers", detail: "Chat with the AI coach, follow meals and log weight, while triggers and schedules keep the data and reminders flowing." },
-      { title: "Monthly recalibration", where: "adaptPlan", detail: "The AI reviews real progress and proposes the next block, which you confirm or decline." },
+      { title: "Monthly check-in", where: "adaptPlan", detail: "After the last workout of the month a check-in screen asks how the block went: can you keep this pace, should the week drop from five sessions to fewer. The AI reads those answers with your real progress and proposes the next block, which you confirm or decline." },
     ],
     stats: [
-      {
-        value: "~38,000",
-        label: "lines of Dart"
-      },
-      {
-        value: "35 · 42",
-        label: "screens · BLoCs and Cubits"
-      },
-      {
-        value: "24",
-        label: "Cloud Functions (~4,500 lines)"
-      },
-      {
-        value: "161",
-        label: "commits, all mine, from idea to Google Play"
-      }
+      { value: "Google Play", label: "live, built and released by me alone" },
+      { value: "35", label: "screens across onboarding, plans, training, coach and progress" },
+      { value: "24", label: "Cloud Functions holding every AI call and API key" },
+      { value: "4 weeks", label: "per plan block, then the AI proposes the next one" },
     ],
     challenges: [
+      {
+        problem: "Getting an app onto Google Play as a solo developer is its own project, not a button at the end.",
+        solution: "I took it through every track myself — internal, then closed, then open testing, then production — fixing what each stage asked for: the store listing, the data-safety declarations and the policy requirements that come with testers.",
+      },
       {
         problem: "An AI-written plan is only useful if weeks, days, exercises and progress always line up.",
         solution: "Plans are generated as structured four-week blocks saved in Firestore. Progress only moves forward on clear events: finishing a workout, confirming recovery on a rest day, or skipping a session."
       },
       {
-        problem: "Monthly recalibration can't simply overwrite the plan someone is following.",
-        solution: "adaptPlan proposes the next block based on real progress, and nothing changes until the user confirms or declines it."
+        problem: "Monthly recalibration can't simply overwrite the plan someone is following, and the app can't tell from data alone whether a hard month was a good one.",
+        solution: "After the last workout of the month the app asks the user directly — is this pace sustainable, should the number of weekly sessions drop — and adaptPlan proposes the next block from those answers plus real progress. Nothing changes until the user confirms or declines it."
       },
       {
         problem: "AI calls cost money, and API keys can't live inside a mobile app.",
@@ -942,6 +968,14 @@ export const projects: Project[] = [
     status: "Prototype",
     category: "AI & Agents",
     role: "Co-developer (team of 2)",
+    brief: {
+      problem: "Money leaks quietly: subscriptions you forgot, prices that crept up, two services doing the same job. The evidence is in your statements, but nobody reads them line by line.",
+      contribution: "Built with one other developer. My part was the Claude orchestration with tool use, the anomaly and duplicate detection, the chat session, login and registration, and the dashboard.",
+      result: "A prototype that runs end to end: upload a statement or connect a bank, and it returns a health score and findings that trace back to code rather than to the model.",
+      shipping: [
+        { label: "Prototype", value: "Runs end to end locally; not publicly deployed" },
+      ],
+    },
     summary:
       "People lose money to subscriptions they forgot, prices that crept up, and two services doing the same job. AAFAS finds all three from transaction data alone, scores your financial health out of 100, and explains it in plain language.\n\nThe rule the whole system is built around is \"analyse, advise, forget\": raw transactions live in memory for one request and are never written to disk. There is no transactions table anywhere in it. My part was the Claude orchestration with tool use, the anomaly and duplicate detection, the chat session, login and registration, and the dashboard.",
     highlights: [
@@ -994,10 +1028,10 @@ export const projects: Project[] = [
       { title: "Forget, then watch", where: "Firestore · Guardian", detail: "Only findings are saved. A weekly job re-checks the account and emails when something actually changes." },
     ],
     stats: [
-      { value: "4,597", label: "lines of Python across 56 modules" },
       { value: "5 + 5", label: "pure-Python detectors + parallel Claude agents" },
       { value: "< 5 ms", label: "for all detectors on six months of data" },
       { value: "0", label: "raw transactions ever written to disk" },
+      { value: "3", label: "input paths — CSV, PDF and live bank data — into one type" },
     ],
     challenges: [
       {
@@ -1057,9 +1091,17 @@ export const projects: Project[] = [
     title: "AI Interview Coach",
     tagline: "Paste a real job posting, then take a live voice interview against an AI that plays the interviewer.",
     year: "2026",
-    status: "Shipped",
+    status: "Completed",
     category: "AI & Agents",
     role: "Solo: design, full-stack, AI",
+    brief: {
+      problem: "Interview practice is usually generic, but the questions that matter come from the actual posting, the actual company and the people who will be in the room.",
+      contribution: "Solo: design, the full-stack build, and the AI work — job analysis, the live voice loop, the coaching tips and the scored report.",
+      result: "A finished product you can run: paste a posting, take a live voice interview, and get a 0–100 report saved to your session history.",
+      shipping: [
+        { label: "Web app", value: "Complete and running locally; source on GitHub, not publicly deployed" },
+      ],
+    },
     summary:
       "A SaaS for interview prep that works from the actual job. You paste a posting and optionally upload your CV, and Claude builds an intelligence report on the role, the company and the people interviewing you.\n\nThen you talk to it. A voice interview runs against an AI playing that interviewer, with Groq streaming the replies fast enough to feel like a conversation and a coaching tip after every answer. When the call ends you get a scored report with specific advice, saved to your session history.",
     highlights: [
@@ -1101,22 +1143,10 @@ export const projects: Project[] = [
       { title: "Scored report", where: "Claude", detail: "A 0–100 score with strengths, improvements and next steps, saved to your sessions." },
     ],
     stats: [
-      {
-        value: "~4,800",
-        label: "lines of TypeScript"
-      },
-      {
-        value: "7",
-        label: "database models (Prisma)"
-      },
-      {
-        value: "6",
-        label: "API routes for upload, call and report"
-      },
-      {
-        value: "2",
-        label: "AI providers, each used for what it does best"
-      }
+      { value: "2", label: "AI providers: Groq for the live call, Claude for the analysis" },
+      { value: "0–100", label: "score with strengths, improvements and next steps" },
+      { value: "10–15", label: "questions generated from the posting and your own CV" },
+      { value: "6", label: "API routes for CV upload, the live call and the report" },
     ],
     challenges: [
       {
@@ -1174,6 +1204,14 @@ export const projects: Project[] = [
     status: "Prototype",
     category: "AI & Agents",
     role: "Solo: architecture, agents, dashboard",
+    brief: {
+      problem: "Running a content account means reading the analytics, deciding what to make next and then making it. Those are usually three different tools, and none of them remembers the account.",
+      contribution: "Solo: the architecture, the agent and its memory, the video pipeline, the background worker and the dashboard.",
+      result: "A prototype where one agent per account reads real numbers, plans the next clip and builds it. Posting stays with me: the app holds read-only access and cannot publish.",
+      shipping: [
+        { label: "Prototype", value: "Runs locally with a background worker; read-only access to TikTok" },
+      ],
+    },
     summary:
       "A control room where each TikTok account has its own agent. Mine is called Nova. It knows only its account: the analytics, the posts that worked and failed, and the content rules you set. It reads that data, writes an honest analysis of what's working, decides what to make next and produces the clip.\n\nYou can ask for a video in the chat or switch on Autopilot, which makes three videos a week timed to the account's best posting slots and notifies you when each one is ready. Posting stays with you. The app never publishes on its own.",
     highlights: [
@@ -1216,22 +1254,10 @@ export const projects: Project[] = [
       { title: "Hand it over", where: "You", detail: "A notification says the clip is ready. You review it and post it yourself." },
     ],
     stats: [
-      {
-        value: "~14,000",
-        label: "lines of TypeScript"
-      },
-      {
-        value: "14",
-        label: "database tables"
-      },
-      {
-        value: "14",
-        label: "agent modules"
-      },
-      {
-        value: "20",
-        label: "integrations: sources, media, voice and rendering"
-      }
+      { value: "1", label: "agent per account, with memory of only that account" },
+      { value: "3", label: "videos a week on Autopilot, timed to the account's best slots" },
+      { value: "20", label: "integrations: sources, media, voice and rendering" },
+      { value: "0", label: "posts published without me reviewing the clip first" },
     ],
     challenges: [
       {
@@ -1288,6 +1314,14 @@ export const projects: Project[] = [
     status: "In progress",
     category: "AI & Agents",
     role: "Solo: research, PRD, architecture, build",
+    brief: {
+      problem: "Matching the editing style of a reference video is expert work done frame by frame, and After Effects has no API an agent can call.",
+      contribution: "Solo: the research, PRD, architecture and build, including the ExtendScript bridge that lets an agent drive After Effects.",
+      result: "In progress, with the core loop proven: the agent edits, renders a frame, looks at it with vision and corrects itself — tested with a deliberately misplaced layer it had to catch.",
+      shipping: [
+        { label: "Research build", value: "In progress; runs against a local After Effects install" },
+      ],
+    },
     summary:
       "The goal is to take the editing style of a reference video (pacing, typography, motion intensity, where the emphasis lands) and apply it to new footage in After Effects, without an expert doing it frame by frame.\n\nAgents drive After Effects through a bridge I wrote, render frames, look at them with vision, and correct what's wrong. It is also the editor behind TikTok Agent Control: that agent picks the story, the source and the narration, then hands the footage here. What comes back is not a finished file but an edit sitting in an After Effects project, ready for a person to review and export.",
     highlights: [
@@ -1328,22 +1362,10 @@ export const projects: Project[] = [
       { title: "Revise or stop", where: "Loop", detail: "Fix what's wrong and try again, or stop when it no longer improves." },
     ],
     stats: [
-      {
-        value: "~22,000",
-        label: "lines of TypeScript"
-      },
-      {
-        value: "~1,500",
-        label: "lines of ExtendScript for the After Effects bridge"
-      },
-      {
-        value: "6",
-        label: "design docs: PRD, architecture and specs"
-      },
-      {
-        value: "23",
-        label: "experiment runs so far"
-      }
+      { value: "2", label: "agents: an executor, and a critic that never sees its reasoning" },
+      { value: "Vision", label: "check on a rendered frame before any edit is accepted" },
+      { value: "6", label: "design docs: PRD, architecture and specs" },
+      { value: "23", label: "experiment runs so far" },
     ],
     challenges: [
       {
@@ -1395,6 +1417,15 @@ export const projects: Project[] = [
     },
   },
 ];
+
+/**
+ * The three shown at the top of the home page: the commercial app I built
+ * alone, the product I shipped to a store, and the AI system I designed end
+ * to end. Everything else is further down, in the order I built it.
+ */
+export const featured = ["gibud", "fitmind-ai", "ai-interview-coach"]
+  .map((slug) => projects.find((p) => p.slug === slug)!)
+  .filter(Boolean);
 
 export function getProject(slug: string) {
   return projects.find((p) => p.slug === slug);

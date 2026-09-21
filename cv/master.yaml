@@ -1,0 +1,528 @@
+# MASTER DATABASE — single source of truth for every CV variant.
+#
+# Rules:
+#   - Nothing here is published directly. Variants are built from it (see build.mjs).
+#   - Every non-obvious claim carries `source` and `status`.
+#       status: confirmed  = verified in code, a live URL, or stated by Amar
+#               reported   = stated by Amar, not independently verifiable
+#               pending    = waiting on Amar's answer, MUST NOT ship in a public CV
+#               dropped    = previously claimed, found unsupported, kept as a record
+#   - `internal` blocks are notes to ourselves and never reach a document.
+
+meta:
+  owner: Amar Muminović
+  updated: 2026-09-21
+  answers_received: "2026-09-21 (Q1, Q2, Q4, Q6, Q7, Q8, Q9, Q10, Q11, Q13; Q12 partly). Still open: Q3 dates, Q5 AAFAS split."
+  note: >-
+    Do not mix in work belonging to Husein Muminović. Any CreditGenius commit
+    under h.m@ledgerstate.io belongs to him, not to Amar.
+
+# Q13 answered 2026-09-21: Amar confirms he may show the client work
+# (Corner Table and GiBud screenshots) publicly.
+client_work_permission:
+  granted: true
+  scope: Corner Table and GiBud screenshots on the portfolio
+  source: stated by Amar 2026-09-21
+  internal: >-
+    Verbal, from Amar, not a written release from P23. Fine for a personal
+    portfolio. If a client ever objects, pull the screenshots first and ask
+    afterwards.
+
+basics:
+  name: Amar Muminović
+  title: Full-Stack & Mobile Engineer
+  location: Sarajevo, Bosnia and Herzegovina
+  email: amarmuminovic2712@gmail.com
+  portfolio: https://portofolio-kappa-five-72.vercel.app
+  github: https://github.com/MumeDoktor
+  linkedin: https://www.linkedin.com/in/amar-muminovi%C4%87-ab91b6353/
+  availability:
+    remote: true
+    start: immediately
+    arrangement: full-time preferred, part-time acceptable
+    markets: no preference
+    target_roles: no preference between Flutter/mobile, full-stack TypeScript, .NET backend and AI engineering
+    status: confirmed
+    source: stated by Amar 2026-09-21
+
+education:
+  - school: Fakultet informacijskih tehnologija, Univerzitet "Džemal Bijedić" u Mostaru
+    school_en: Faculty of Information Technologies, Džemal Bijedić University of Mostar
+    qualification: Undergraduate studies, first year
+    start: pending           # Q12: start year still not given; leave the date off rather than guess
+    status_note: Amar gives the programme only as the faculty itself, in Mostar
+    status: 1st year, in progress
+    graduated: false
+    source: stated by Amar
+  - school: Mješovita srednja škola Gornji Vakuf
+    qualification: Secondary school
+    end: 2025
+    note: "Graduation project: Biblioteka, a school library system."
+    status: confirmed
+    source: stated by Amar
+
+languages_spoken:
+  - { name: Bosnian, level: Native }
+  - { name: English, level: Fluent }
+
+# ---------------------------------------------------------------------------
+# EMPLOYMENT. Projects link to these by `employer`, so experience is never
+# double-counted: a client project is not a separate job.
+# ---------------------------------------------------------------------------
+experience:
+  - id: p23-intern
+    company: P23 d.o.o.
+    role: Software Development Intern
+    start: 2023-01
+    end: 2023-05
+    arrangement: internship
+    location: Remote
+    status: confirmed
+    source: stated by Amar
+    summary: >-
+      Structured, mentored internship: the first move from coding alone to
+      building inside a reviewed codebase.
+    bullets:
+      - text: >-
+          Worked through a guided curriculum with a senior developer who reviewed
+          every change and explained how to structure it.
+        status: confirmed
+      - text: >-
+          Built small practice applications (tic-tac-toe and similar games) to
+          learn application state, game logic and UI composition.
+        status: confirmed
+        internal: learning exercises, not shipped products — keep that clear
+      - text: >-
+          Picked up React, Git branching and pull-request review, and Flutter,
+          which led directly into the Corner Table team.
+        status: confirmed
+
+  - id: p23-junior
+    company: P23 d.o.o.
+    role: Junior Software Engineer
+    start: 2023-06
+    end: 2025-01
+    arrangement: full-time
+    location: Remote
+    status: confirmed
+    source: LinkedIn + stated by Amar
+    projects: [corner-table]
+
+  - id: p23-lead
+    company: P23 d.o.o.
+    role: Team Lead
+    start: 2025-01
+    end: 2026-01
+    arrangement: full-time
+    location: Remote
+    status: reported
+    source: LinkedIn
+    projects: [gibud]
+    team_size: 4   # Amar plus three colleagues
+    bullets:
+      - text: >-
+          Supported three colleagues on the team: helping them when they got
+          stuck and talking through how to approach a problem.
+        status: confirmed
+      - text: Reviewed pull requests.
+        status: confirmed
+    published_as: merged into p23-junior as "Junior Full-Stack Developer, Mobile & Web"
+    internal: >-
+      Q4 answered 2026-09-21. Team of four. The role was peer support and PR
+      review, NOT architecture ownership, task allocation or process ownership.
+      Never claim "led architecture decisions" or "ran the team".
+      DECISION 2026-09-21: Amar does not want the Team Lead title shown at all.
+      The CV and the portfolio present Jun 2023 - Jan 2026 as one continuous
+      junior full-stack role covering mobile and web. The title is recorded
+      here because it was real; this is deliberate understatement, not a
+      correction. Note that his LinkedIn still shows Team Lead, so the two
+      documents differ on this point by his choice.
+
+  - id: creditgenius
+    company: CreditGenius
+    role: Full-Stack Developer
+    start: 2025-01
+    end: 2026-05
+    arrangement: contract, remote
+    location: Remote · UK company
+    status: reported
+    source: LinkedIn, stated by Amar
+    projects: [creditgenius]
+    dates_status: settled by Amar - use LinkedIn
+    dates_source: LinkedIn (Jan 2025 - May 2026), kept by Amar's decision 2026-09-21
+    internal: >-
+      Amar worked through his brother's contract. Confirmed by Amar that the
+      micro-loan retry logic is his. Other bullets come from his LinkedIn.
+      DECISION 2026-09-21: keep the LinkedIn dates exactly as they stand, so
+      the CV and the LinkedIn profile match. Do not change them and do not ask
+      again.
+      Consequence to live with: these dates overlap p23-lead (Jan 2025 -
+      Jan 2026). Never present the two roles as held simultaneously in prose,
+      and never sum them into extra years of experience - the CV states three.
+      Interview prep: if someone asks about the overlap, the honest answer is
+      the sequence Amar describes - P23 first, CreditGenius after GiBud, with
+      his own projects running alongside.
+
+# ---------------------------------------------------------------------------
+# PROJECTS
+# ---------------------------------------------------------------------------
+projects:
+  # Q6 answered 2026-09-21: of Amar's own projects, only FitMind AI is
+  # publicly available. Everything else runs locally and was built for himself.
+  - id: biblioteka
+    name: Biblioteka
+    kind: personal
+    employer: null
+    year: 2024
+    role: Sole developer
+    context: High-school graduation project
+    status_of_product: Completed and handed to the school
+    status: confirmed
+    source: repo + stated by Amar
+    link: /projects/biblioteka
+    stack: [React, Vite, Express, MongoDB, JWT, bcrypt, Multer]
+    scale: { lines: 5500, endpoints: 30 }
+    what_it_is: >-
+      A library system for a secondary school: a librarian panel and a student
+      portal over one Express API.
+    contribution:
+      - text: Built both applications and the API alone, at 17, before AI coding tools were useful for a project this size.
+        status: confirmed
+      - text: Role-based access with JWT sessions and bcrypt-hashed passwords, routing librarians and students to different apps.
+        status: confirmed
+      - text: Book lending and stock control, reading-room seat reservations with librarian approval, and a prize-draw feature.
+        status: confirmed
+    internal: git history starts Jul 2024; Amar confirmed the year
+
+  - id: corner-table
+    name: Corner Table
+    kind: client
+    employer: p23-junior
+    year: 2023-2024
+    role: Flutter developer in the MVP team
+    status_of_product: MVP delivered to the client; not publicly released
+    status: confirmed
+    source: P23 case study + stated by Amar
+    link: /projects/corner-table
+    stack: [Flutter, Dart, BLoC, Firebase, Firestore, FCM]
+    what_it_is: >-
+      A hospitality network for New York founders where guests become recognised
+      regulars of a venue and venue staff confirm that relationship.
+    contribution:
+      - text: Built the in-app chat and group messaging on Firestore, with messages synced in real time.
+        status: confirmed
+      - text: Made replies role-aware, so a message to a venue reaches its staff and only permitted roles answer for the venue.
+        status: confirmed
+      - text: Built the venues and cities sections (searchable, sortable lists and detail pages).
+        status: confirmed
+      - text: Built push notifications with FCM, including device-token registration and refresh, and routed each notification type to the right screen.
+        status: confirmed
+      - text: Built the registration flow together with a colleague, plus the profile and edit-profile screens.
+        status: confirmed
+        internal: shared work — must stay marked as such
+    publication_constraint: pending   # Q13: may screenshots stay public?
+
+  - id: gibud
+    name: GiBud
+    kind: client
+    employer: p23-lead
+    year: 2025
+    role: Sole Flutter developer; contributor on the Next.js platform
+    status_of_product:
+      web: Live at gibud.no
+      mobile: Not yet released on Google Play
+    status: confirmed
+    source: repos (128/134 mobile commits by Amar; 26 web commits) + live site
+    link: /projects/gibud
+    stack: [Flutter, Dart, BLoC, go_router, Next.js, TypeScript, Prisma, PostgreSQL, Ably, Cloudflare R2]
+    scale: { dart_lines: 13700, screens: 11, api_routes_touched: 22 }
+    what_it_is: >-
+      A rebuild of a Norwegian online auction marketplace: a public site, an
+      admin dashboard and a versioned API, plus a native mobile app.
+    contribution:
+      - text: Built the mobile app alone in Flutter, from first commit to checkout.
+        status: confirmed
+      - text: Live bidding over Ably, so price, bid history and countdown update while the screen is open.
+        status: confirmed
+      - text: Checkout as a single Prisma transaction that creates purchases, snapshots each item's title and image, and clears the cart.
+        status: confirmed
+      - text: Versioned REST endpoints for the app covering auctions, bids, cart, checkout and purchases.
+        status: confirmed
+      - text: Categories cached on-device in SQLite, with data refreshed when the app returns to the foreground.
+        status: confirmed
+      - text: Item media on Cloudflare R2, chat endpoints, and an invoice designer for sellers.
+        status: confirmed
+    dropped:
+      - claim: "Contributed to CI/CD pipelines and Docker containerisation"
+        reason: no CI workflows in the repo; only docker-compose for local Postgres
+        status: dropped   # Q10 may restore it
+
+  - id: creditgenius
+    name: CreditGenius
+    kind: client
+    employer: creditgenius
+    year: 2025-2026
+    role: Full-Stack Developer (remote)
+    status_of_product: Production financial platform
+    status: reported
+    source: LinkedIn; retry logic confirmed by Amar
+    link: /projects/creditgenius-micro-loans
+    stack: [C#, ASP.NET Core, Entity Framework, SQL Server, Angular, AWS S3, Amazon SES]
+    what_it_is: >-
+      A UK credit platform: credit reports and scores, subscriptions, billing
+      and micro-loans.
+    contribution:
+      - text: Built automatic re-collection of failed micro-loan repayments, so a failed payment is retried on a schedule instead of dropped.
+        status: confirmed
+      - text: Built and maintained backend services with ASP.NET Core, Entity Framework and SQL Server.
+        status: reported
+      - text: Designed and optimised database schemas, queries and stored procedures.
+        status: reported
+      - text: Implemented business logic, REST endpoints and payment and subscription workflows in production.
+        status: reported
+      - text: Built Angular features and internal tools on top of those services.
+        status: reported
+      - text: Implemented file storage on AWS S3, PDF generation for reports, and transactional email through Amazon SES.
+        status: reported
+
+  - id: fitmind
+    name: FitMind AI
+    kind: personal
+    employer: null
+    year: 2025-2026
+    role: Sole engineer (product, app, backend, website)
+    status_of_product: Live on Google Play since July 2026
+    metrics: none   # Q8 answered 2026-09-21: Amar has no user, download or subscriber numbers. Never invent any.
+    status: confirmed
+    source: repo (161 commits, all Amar) + live store listing + live site
+    link: /projects/fitmind-ai
+    external:
+      store: https://play.google.com/store/apps/details?id=com.mumetech.fitmindai
+      site: https://fitmind-ai-web.vercel.app/
+    stack: [Flutter, Dart, BLoC, Firebase, Cloud Functions, Firestore, OpenAI, Lemon Squeezy, React, TypeScript]
+    scale: { dart_lines: 38000, screens: 35, cloud_functions: 24 }
+    what_it_is: >-
+      An AI fitness coach: onboarding builds a personalised training and
+      nutrition plan, each session suggests weights from the last one, and the
+      plan is recalibrated for the next block.
+    contribution:
+      - text: >-
+          Designed, built and published the app alone: the product, the Flutter
+          app, the Firebase backend, the website and the payment flow.
+        status: confirmed
+      - text: 24 Cloud Functions running plan generation, adaptation, workout analysis, exercise substitution, the coach chat and scheduled reminders.
+        status: confirmed
+      - text: Every OpenAI call runs server-side behind verified auth and Firebase App Check, so no API key ships in the app.
+        status: confirmed
+      - text: >-
+          Payments through Lemon Squeezy as merchant of record, because Google
+          Play merchant payments are not available to developers in Bosnia and
+          Herzegovina; a webhook keeps subscription state in Firestore.
+        status: confirmed
+        internal: strongest "engineering under a real constraint" story in the CV
+      - text: Progress tracking with weight trends, per-muscle volume, exercise history and private progress photos.
+        status: confirmed
+      - text: >-
+          Took the app through the full Google Play release process alone:
+          internal testing, then closed testing, then open testing, then
+          production.
+        status: confirmed
+        internal: >-
+          Q9 answered 2026-09-21. Amar names two hardest problems: (1) finding
+          and integrating a payment provider that supports Bosnia and
+          Herzegovina, which ended at Lemon Squeezy as merchant of record;
+          (2) getting the app through Google Play's testing tracks to release.
+          Both are FitMind. Lead with these in interviews.
+    corrections:
+      - was: "re-evaluates user progress every week"
+        now: >-
+          After the last workout of the month the app opens a check-in screen
+          and asks the user how the block went - whether the pace is
+          sustainable, whether the number of weekly sessions should drop - and
+          the answers feed the plan it proposes for the next block.
+        status: confirmed
+      - was: "website built with Next.js"
+        now: "website built with React (Create React App) and TypeScript"
+        status: confirmed
+      - was: "GPT-4o"
+        now: "OpenAI models: gpt-4o, gpt-4o-mini and gpt-5.2"
+        status: confirmed
+
+  - id: aafas
+    name: AAFAS — AI Financial Adviser
+    kind: team
+    employer: null
+    year: 2026
+    role: Co-developer (team of two)
+    status_of_product: Prototype
+    status: confirmed
+    source: repo (9 of 24 commits by Amar; teammate Zlatan D.)
+    link: /projects/aafas-financial-adviser
+    stack: [Python, FastAPI, Claude API, Firebase, TrueLayer, "Next.js 14"]
+    split_status: unreconstructible
+    internal: >-
+      pytest exists in the repo but Amar has never written tests (Q10), so it
+      is not listed as his. Q5 answered 2026-09-21: the two worked in parallel
+      and Amar no longer remembers who did what. The areas claimed for him
+      (Claude orchestration, anomaly and duplicate detection, chat session,
+      auth, dashboard) come from his earlier account and from 9 of 24 commits,
+      so they stay marked reported, not confirmed. Do not sharpen them.
+    scale: { python_lines: 4597, modules: 56 }
+    what_it_is: >-
+      Reads bank transactions and finds recurring subscriptions, anomalies and
+      duplicate services, then explains them, without writing a raw transaction
+      to disk.
+    contribution:
+      - text: Built the Claude orchestration with tool use, so every figure comes from deterministic Python detectors rather than the model.
+        status: confirmed
+      - text: Built the anomaly and duplicate-service detectors, including an income-adjusted baseline.
+        status: confirmed
+      - text: Built the chat session over the analysis, plus authentication (login and registration) and dashboard work.
+        status: confirmed
+    corrections:
+      - was: "Solo Engineer"
+        now: "Co-developer, team of two"
+        status: confirmed
+        internal: Q5 — which parts were the teammate's, and was there an earlier solo version?
+
+  - id: interview-coach
+    name: AI Interview Coach
+    kind: personal
+    employer: null
+    year: 2026
+    role: Sole engineer
+    status_of_product: Complete; runs locally, not publicly deployed
+    status: confirmed
+    source: repo + running app
+    link: /projects/ai-interview-coach
+    stack: ["Next.js 16", TypeScript, "Auth.js v5", PostgreSQL, Prisma, Claude, Groq, Zod]
+    what_it_is: >-
+      Interview preparation from a real job posting: an intelligence report on
+      the role, then a live voice interview against an AI playing the
+      interviewer, then a scored report.
+    contribution:
+      - text: Built the low-latency voice loop with Groq Whisper for speech-to-text and a streaming model for replies, while the browser speaks them.
+        status: confirmed
+      - text: Used Claude for the deeper work — job analysis and the post-call report — and validated both with Zod before saving.
+        status: confirmed
+      - text: Coaching tips generated in a background request so the conversation never waits for them.
+        status: confirmed
+      - text: CV parsing for PDF, DOCX and TXT that stores extracted text only, no binaries.
+        status: confirmed
+    known_issue:
+      internal: >-
+        app/globals.css sets `--font-sans: var(--font-sans)` (self-referencing),
+        so the live app falls back to a serif font. Worth fixing before showing.
+
+  - id: tiktok-agent
+    name: TikTok Agent Control
+    kind: personal
+    employer: null
+    year: 2026
+    role: Sole engineer
+    status_of_product: Prototype, read-only against the real account
+    status: confirmed
+    source: repo + running dashboard
+    link: /projects/tiktok-agent-control
+    pairs_with: agentic-video-editing
+    stack: [TypeScript, "Next.js", Claude, SQLite, Drizzle, ffmpeg, yt-dlp, Remotion]
+    what_it_is: >-
+      A control room where one agent per TikTok account reads the analytics,
+      decides what to make next, and drives production of the clip.
+    contribution:
+      - text: Agent with layered memory — a binding content profile, standing directives distilled from chat, and live data.
+        status: confirmed
+      - text: Analysis grounded in pre-computed statistics passed to the model as facts, never raw data.
+        status: confirmed
+      - text: Background worker where each step is a retryable job with exponential backoff.
+        status: confirmed
+      - text: Sourcing limited to verifiable public-domain footage, with clips marked unverified until rights are asserted.
+        status: confirmed
+
+  - id: agentic-video-editing
+    name: Agentic Video Editing
+    kind: personal
+    employer: null
+    year: 2026
+    role: Sole engineer
+    status_of_product: In progress; produces finished clips for review
+    status: confirmed
+    source: repo + recorded run + exported video
+    link: /projects/agentic-video-editing
+    pairs_with: tiktok-agent
+    stack: [TypeScript, Anthropic SDK, Zod, After Effects, ExtendScript, ffmpeg]
+    what_it_is: >-
+      The editing half of the same system: agents drive After Effects through a
+      bridge, render frames, inspect them and correct their own work.
+    contribution:
+      - text: Built an ExtendScript file-IPC bridge so an agent can run After Effects operations unattended and read structured results back.
+        status: confirmed
+      - text: Proved the loop with an injected fault — a text layer placed off-centre that only a rendered frame reveals; the agent finds and fixes it.
+        status: confirmed
+      - text: Kept the critic in an isolated context so it judges frames, not the executor's reasoning.
+        status: confirmed
+      - text: Delivered a finished 26-second vertical clip with cut, captions, treatments and cutaways, exported for review.
+        status: confirmed
+    corrections:
+      - was: "edits finished videos with no manual editing step"
+        now: >-
+          the agent builds the edit and hands back an After Effects project for
+          a person to review and export
+        status: confirmed
+        internal: src/agent/ae-edit.ts documents the hand-off explicitly
+
+# ---------------------------------------------------------------------------
+# SKILLS — grouped, and each group states where the evidence lives.
+# ---------------------------------------------------------------------------
+skills:
+  mobile:
+    items: [Flutter, Dart, BLoC, go_router, get_it, Firebase SDK]
+    evidence: [gibud, fitmind, corner-table]
+  frontend:
+    items: [React, "Next.js (App Router)", TypeScript, Angular, Tailwind CSS, shadcn/ui]
+    evidence: [gibud, interview-coach, fitmind, creditgenius]
+    note: Angular evidence is CreditGenius only (reported, not independently verified)
+  backend:
+    items: [Node.js, Express, "ASP.NET Core", "C#", FastAPI, Python, REST APIs, Entity Framework]
+    evidence: [gibud, creditgenius, aafas, biblioteka]
+  data:
+    items: [PostgreSQL, "SQL Server", MongoDB, SQLite, Firestore, Prisma, Drizzle]
+    evidence: [gibud, creditgenius, biblioteka, tiktok-agent]
+    note: Prisma and Drizzle are ORMs, not databases — keep them labelled correctly
+  ai:
+    items: [Claude API, OpenAI API, tool use, structured output with Zod, Groq Whisper, prompt design]
+    evidence: [aafas, fitmind, interview-coach, tiktok-agent, agentic-video-editing]
+  cloud:
+    items: [Firebase, "Firebase Cloud Functions", "AWS S3", "Amazon SES", "Cloudflare R2", Vercel, Docker, Git]
+    evidence: [fitmind, creditgenius, gibud]
+  # Q11 answered 2026-09-21: Amar says he has hands-on used all of Docker,
+  # FastAPI, MongoDB, Drizzle, MUI, Remotion and Angular. That is self-reported
+  # use, not depth — the CV lists them, but do not call him expert in any.
+  dropped:
+    - { item: Provider, reason: "not in any pubspec.yaml; only flutter_bloc" }
+    - { item: "RAG patterns", reason: "no retrieval or vector store in any project" }
+    - { item: embeddings, reason: "no embedding calls in any project" }
+    - { item: "CI/CD", reason: "no pipeline found; Q10 answered - Amar has never set one up" }
+    - { item: "Testing (unit/integration)", reason: "Q10 answered - Amar has never written tests. Real gap, state it plainly if asked" }
+    - { item: "Agile/Scrum", reason: "Q4 answered - the lead role was peer support and PR review, not process ownership" }
+
+# ---------------------------------------------------------------------------
+# OPEN QUESTIONS — nothing here may appear in a public document until answered.
+# ---------------------------------------------------------------------------
+open_questions:
+  - { id: Q12b, topic: year he enrolled at the faculty, status: OPEN - minor; the CV prints "Current" and no start year until answered }
+
+answered:
+  - { id: Q1, answer: "No preference between Flutter/mobile, full-stack TypeScript, .NET backend and AI engineering." }
+  - { id: Q2, answer: "Available immediately. Full-time preferred, part-time acceptable. No market preference." }
+  - { id: Q4, answer: "Team of four. Helped three colleagues when stuck, suggested approaches, reviewed PRs. No architecture ownership." }
+  - { id: Q6, answer: "Only FitMind AI is publicly available. Everything else was built for himself and never deployed." }
+  - { id: Q7, answer: "Adaptation is triggered by a check-in screen after the last workout of the month." }
+  - { id: Q9, answer: "Lemon Squeezy research and integration (BiH not supported elsewhere), and the full Google Play release process." }
+  - { id: Q10, answer: "Has never written tests and has never set up CI. Real gap." }
+  - { id: Q5, answer: "Worked in parallel with the teammate and does not remember the split. Attribution stays as reported, not confirmed." }
+  - { id: Q8, answer: "No numbers exist for FitMind AI. Everything stays qualitative." }
+  - { id: Q11, answer: "Has hands-on used Docker, FastAPI, MongoDB, Drizzle, MUI, Remotion and Angular." }
+  - { id: Q12, answer: "Faculty of Information Technologies in Mostar, first year. Start year not given. Business email amarmuminovic2712@gmail.com." }
+  - { id: Q13, answer: "May show the client work publicly." }
+  - { id: Q3, answer: "Decided 2026-09-21: CreditGenius keeps the LinkedIn dates (Jan 2025 - May 2026). Closed." }

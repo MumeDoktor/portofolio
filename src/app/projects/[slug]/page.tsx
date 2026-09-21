@@ -15,6 +15,7 @@ import {
   getProject,
   projects,
   type ArchLayer,
+  type Brief,
   type Challenge,
   type Stat,
   type FlowStep,
@@ -47,6 +48,8 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
 
   const index = projects.indexOf(project);
   const next = projects[(index + 1) % projects.length];
+  // On team projects, what the system does and what I did need separate headings.
+  const solo = project.role.startsWith("Solo");
 
   const meta = [
     { label: "Role", value: project.role },
@@ -146,6 +149,8 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
             </div>
           </dl>
 
+          {project.brief && <BriefSection brief={project.brief} solo={solo} />}
+
           {project.stats && <StatsStrip stats={project.stats} />}
 
           {project.videos && (
@@ -205,7 +210,9 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
 
           <div className="grid gap-14 py-16 sm:py-24 lg:grid-cols-[1fr_20rem] lg:gap-20">
             <div>
-              <h2 className="font-mono text-xs uppercase tracking-widest text-muted">Overview</h2>
+              <h2 className="font-mono text-xs uppercase tracking-widest text-muted">
+                {solo ? "Overview" : "System overview"}
+              </h2>
               {project.summary.split("\n\n").map((para, i) => (
                 <p
                   key={i}
@@ -222,7 +229,9 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
               {project.flow && <FlowSection steps={project.flow} />}
 
               <section className="mt-16">
-                <h2 className="font-mono text-xs uppercase tracking-widest text-muted">What I built</h2>
+                <h2 className="font-mono text-xs uppercase tracking-widest text-muted">
+                  {solo ? "What I built" : "My contribution"}
+                </h2>
                 <ol className="mt-6 divide-y divide-line border-y border-line">
                   {project.highlights.map((h, i) => (
                     <Reveal
@@ -489,6 +498,44 @@ function ArchitectureSection({ layers }: { layers: ArchLayer[] }) {
           </div>
         ))}
       </div>
+    </section>
+  );
+}
+
+/**
+ * The short answer, before any screenshot: what the problem was, what I did
+ * about it, what came of it, and where each part of the product stands.
+ */
+function BriefSection({ brief, solo }: { brief: Brief; solo: boolean }) {
+  const rows = [
+    { label: "The problem", value: brief.problem },
+    { label: solo ? "What I did" : "My contribution", value: brief.contribution },
+    { label: "Result", value: brief.result },
+  ];
+
+  return (
+    <section className="mt-4" aria-label="Summary">
+      <Spotlight className="grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-3">
+        {rows.map((r) => (
+          <div key={r.label} className="spotlight bg-bg p-5">
+            <h2 className="font-mono text-[11px] uppercase tracking-wider text-accent">{r.label}</h2>
+            <p className="mt-2.5 text-sm leading-relaxed text-muted">{r.value}</p>
+          </div>
+        ))}
+      </Spotlight>
+      {brief.shipping && (
+        <dl className="mt-3 flex flex-wrap gap-2">
+          {brief.shipping.map((s) => (
+            <div
+              key={s.label}
+              className="flex flex-wrap items-baseline gap-2 rounded-full border border-line px-4 py-2 text-sm"
+            >
+              <dt className="font-mono text-[11px] uppercase tracking-wider text-muted">{s.label}</dt>
+              <dd>{s.value}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
     </section>
   );
 }

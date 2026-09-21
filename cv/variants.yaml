@@ -1,0 +1,120 @@
+# Which parts of master.yaml each CV variant uses.
+#
+# Bullet numbers index the publishable bullets of that entry in master.yaml,
+# counted from 0 and skipping anything marked pending or dropped. "all" takes
+# every publishable bullet.
+#
+# Facts (titles, dates, employers, scope) never change between variants.
+# Only selection, ordering and emphasis do.
+
+master:
+  title: Full-Stack & Mobile Engineer
+  summary: >-
+    Full-stack and mobile engineer working across Flutter, TypeScript/Next.js
+    and .NET. Three years of professional work at P23 and CreditGenius on
+    production apps for clients in Norway, the US and the UK, alongside my own
+    products — including FitMind AI, an AI fitness coach live on Google Play
+    that I built and shipped alone. Comfortable owning a feature from database
+    schema to mobile UI, and recently focused on AI systems where the model's
+    output is validated by code rather than trusted.
+  # Oldest first, at Amar's request. The two post-internship P23 roles are
+  # shown as one continuous junior full-stack role — see master.yaml for the
+  # titles as they were actually held.
+  experience:
+    - id: p23-intern
+      title: Software Development Intern
+      bullets:
+        - "Completed a mentored internship: worked from a guided curriculum, had every change reviewed by a senior developer, and learned Git branching and pull-request review."
+        - Built small practice applications to learn application state, logic and UI composition, then moved onto client work in Flutter.
+    - id: p23-junior
+      title: Junior Full-Stack Developer, Mobile & Web
+      end: 2026-01
+      projects: [corner-table, gibud]
+      bullets:
+        - Built in-app chat and group messaging on Firestore for Corner Table, a hospitality platform delivered as an MVP to its New York founders.
+        - Made replies role-aware, so a message to a venue reaches its staff and only permitted roles answer on the venue's behalf.
+        - Built the venues and cities sections with searchable, sortable lists and detail pages.
+        - "Implemented push notifications with Firebase Cloud Messaging: device-token registration and refresh, and routing each notification type to the right screen."
+        - Built the registration flow with a colleague, plus the profile and edit-profile screens.
+        - "Sole Flutter developer for the GiBud marketplace app: architecture, BLoC state management, navigation and release-ready build."
+        - Built live bidding over Ably so price, bid history and countdown update while a screen is open.
+        - Implemented checkout as a single Prisma transaction that creates purchases, snapshots item title and image, and clears the cart.
+        - Built versioned REST endpoints for the mobile client covering auctions, bids, cart, checkout and purchases.
+        - Cached categories on-device in SQLite and refreshed data when the app returned to the foreground, so the home screen opens instantly.
+        - Added item media on Cloudflare R2, chat endpoints and an invoice designer for sellers.
+        - Supported three colleagues on the team, helping them work through problems they were stuck on, and reviewed pull requests.
+    - id: creditgenius
+      title: Full-Stack Developer (contract, remote)
+      bullets:
+        - Built automatic re-collection of failed micro-loan repayments, so a failed payment is retried on a schedule instead of being dropped.
+        - Built and maintained backend services with ASP.NET Core, Entity Framework and SQL Server.
+        - Designed and optimised database schemas, queries and stored procedures.
+        - Implemented business logic, REST endpoints and payment and subscription workflows in production.
+        - Built Angular features and internal tools on top of those services.
+        - Implemented file storage on AWS S3, PDF generation for production reports, and transactional email through Amazon SES.
+  projects:
+    - { id: fitmind, bullets: all }
+    - { id: interview-coach, bullets: all }
+    - { id: agentic-video-editing, bullets: all }
+    - { id: tiktok-agent, bullets: all }
+    - { id: aafas, bullets: all }
+    - { id: biblioteka, bullets: all }
+  skills:
+    - { group: mobile, label: Mobile }
+    - { group: frontend, label: Frontend }
+    - { group: backend, label: Backend }
+    - { group: data, label: Databases }
+    - { group: ai, label: AI / LLM }
+    - { group: cloud, label: Cloud & Tools }
+
+general:
+  title: Full-Stack & Mobile Engineer
+  summary: >-
+    Full-stack and mobile engineer with three years of professional experience
+    across Flutter, TypeScript/Next.js and .NET. Sole developer of a Norwegian
+    auction marketplace's mobile app at P23, and backend and Angular work on a
+    UK financial platform at CreditGenius. Built and published FitMind AI, an
+    AI fitness coach, to Google Play on my own — app, Firebase backend,
+    payments and release. I like features I can own end to end, from database
+    schema to mobile UI.
+  # Oldest first, at Amar's request. The two post-internship P23 roles are
+  # shown as one continuous junior full-stack role — see master.yaml for the
+  # titles as they were actually held.
+  experience:
+    - id: p23-intern
+      title: Software Development Intern
+      bullets:
+        - "Mentored internship with reviewed code and a Git pull-request workflow; learned React and Flutter here, then moved onto client work."
+    - id: p23-junior
+      title: Junior Full-Stack Developer, Mobile & Web
+      end: 2026-01
+      projects: [corner-table, gibud]
+      bullets:
+        - Built in-app chat and group messaging on Firestore for Corner Table, a hospitality platform delivered as an MVP to its New York founders, with role-aware replies so only permitted roles answer for a venue.
+        - Built the venues and cities sections, and the registration, profile and edit-profile flows (registration with a colleague).
+        - "Implemented Firebase Cloud Messaging end to end: device-token registration and refresh, with each notification type routed to the right screen."
+        - Sole Flutter developer for the GiBud auction marketplace app, from architecture and BLoC state management through to checkout.
+        - Built live bidding over Ably, so price, bid history and countdown update while a screen is open.
+        - Implemented checkout as a single Prisma transaction that creates purchases, snapshots each item's title and image, and clears the cart.
+        - Built versioned REST endpoints for the mobile client covering auctions, bids, cart, checkout and purchases.
+        - Added on-device SQLite caching, Cloudflare R2 media storage, chat endpoints and a seller invoice designer.
+        - Supported three colleagues on the team when they got stuck, and reviewed pull requests.
+    - id: creditgenius
+      title: Full-Stack Developer (contract, remote)
+      bullets:
+        - Built automatic re-collection of failed micro-loan repayments, so a failed payment is retried on a schedule instead of being dropped.
+        - Built and maintained ASP.NET Core services with Entity Framework over SQL Server, including schemas, queries and stored procedures.
+        - Implemented business logic, REST endpoints and payment and subscription workflows in production.
+        - Built Angular features and internal tools, plus AWS S3 file storage, PDF report generation and transactional email with Amazon SES.
+  projects:
+    - { id: fitmind, bullets: [0, 3, 5, 1] }
+    - { id: interview-coach, bullets: [0, 1, 3] }
+    - { id: agentic-video-editing, label: with TikTok Agent Control, bullets: [0, 1, 3] }
+    - { id: aafas, bullets: [0, 1] }
+  skills:
+    - { group: mobile, label: Mobile }
+    - { group: frontend, label: Frontend }
+    - { group: backend, label: Backend }
+    - { group: data, label: Databases }
+    - { group: ai, label: AI / LLM }
+    - { group: cloud, label: Cloud & Tools }

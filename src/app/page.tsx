@@ -10,7 +10,7 @@ import { ScrollProgress } from "@/components/ScrollProgress";
 import { Spotlight } from "@/components/Spotlight";
 import { ArrowIcon, SectionHeading, StatusDot, Tag } from "@/components/ui";
 import { education, experience, languages, profile, skills } from "@/content/profile";
-import { projects } from "@/content/projects";
+import { featured, projects } from "@/content/projects";
 
 export default function Home() {
   const [first, ...rest] = profile.name.split(" ");
@@ -18,7 +18,7 @@ export default function Home() {
   const stats = [
     { value: `${profile.yearsExperience}+`, label: "years of professional experience" },
     { value: String(projects.length), label: "projects shipped or in flight" },
-    { value: String(profile.startedCodingAt), label: "age I started coding" },
+    { value: "1", label: "app of my own live on Google Play" },
   ];
 
   return (
@@ -52,7 +52,7 @@ export default function Home() {
             </p>
             <div className="rise mt-10 flex flex-wrap gap-3 [animation-delay:240ms]">
               <Link
-                href="#work"
+                href="#selected"
                 className="inline-flex items-center gap-2 rounded-full bg-fg px-5 py-3 text-sm font-medium text-bg transition-colors hover:bg-accent hover:text-accent-fg"
               >
                 See my work <ArrowIcon />
@@ -66,9 +66,10 @@ export default function Home() {
               {profile.cvUrl && (
                 <a
                   href={profile.cvUrl}
+                  download
                   className="inline-flex items-center gap-2 rounded-full border border-line px-5 py-3 text-sm font-medium transition-colors hover:border-fg"
                 >
-                  Download CV
+                  Download CV (PDF)
                 </a>
               )}
             </div>
@@ -87,9 +88,61 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Selected work: the three worth opening first */}
+        <section id="selected" className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
+          <SectionHeading
+            index="01"
+            title="Selected work"
+            kicker="Three I'd open first. The full list, in the order I built them, is further down."
+          />
+          <ul className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+            {featured.map((p, i) => {
+              const shot = p.preview?.[0] ?? p.desktop?.[0];
+              const phone = Boolean(p.preview?.[0]);
+              return (
+                <Reveal as="li" key={p.slug} delay={i * 80}>
+                  <Link
+                    href={`/projects/${p.slug}`}
+                    className="group flex h-full flex-col overflow-hidden rounded-2xl border border-line transition-colors hover:border-fg/30"
+                  >
+                    {shot && (
+                      <div className={`aspect-[16/10] overflow-hidden ${phone ? "bg-surface px-10 pt-6" : ""}`}>
+                        <Image
+                          src={shot.src}
+                          alt={`${p.title}: ${shot.caption}`}
+                          placeholder="blur"
+                          sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw"
+                          className={`h-full w-full object-top transition-transform duration-500 group-hover:scale-[1.03] ${
+                            phone ? "rounded-t-2xl border border-line object-cover" : "object-cover"
+                          }`}
+                        />
+                      </div>
+                    )}
+                    <div className="flex flex-1 flex-col p-5">
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+                        <ProjectAvatar project={p} />
+                        <h3 className="font-serif text-2xl leading-tight">{p.title}</h3>
+                      </div>
+                      <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">{p.tagline}</p>
+                      {p.brief?.shipping?.[0] && (
+                        <p className="mt-4 flex flex-wrap items-baseline gap-2 border-t border-line pt-4 text-sm">
+                          <span className="font-mono text-[11px] uppercase tracking-wider text-accent">
+                            {p.brief.shipping[0].label}
+                          </span>
+                          <span className="text-muted">{p.brief.shipping[0].value}</span>
+                        </p>
+                      )}
+                    </div>
+                  </Link>
+                </Reveal>
+              );
+            })}
+          </ul>
+        </section>
+
         {/* About + skills */}
         <section id="about" className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
-          <SectionHeading index="01" title="About" />
+          <SectionHeading index="02" title="About" />
           <div className="grid gap-14 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
             <div className="space-y-6">
               {profile.about.map((para, i) => (
@@ -144,7 +197,11 @@ export default function Home() {
 
         {/* Experience */}
         <section id="experience" className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
-          <SectionHeading index="02" title="Experience" kicker="From teaching myself at 16 to building production apps." />
+          <SectionHeading
+            index="03"
+            title="Experience"
+            kicker="The companies I've worked for, from my first day to now."
+          />
           <ol className="relative space-y-12 border-l border-line pl-6 sm:space-y-16 sm:pl-10">
             {experience.map((job, i) => (
               <Reveal as="li" key={job.company + job.role} delay={i * 60} className="relative">
@@ -198,9 +255,9 @@ export default function Home() {
         {/* Projects, oldest first */}
         <section id="work" className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
           <SectionHeading
-            index="03"
-            title="Projects"
-            kicker="In the order I built them, up to what I'm working on now."
+            index="04"
+            title="All projects"
+            kicker="Everything, in the order I built it, up to what I'm working on now."
           />
           <ol className="divide-y divide-line border-y border-line">
             {projects.map((p, i) => (
@@ -298,7 +355,7 @@ export default function Home() {
         {/* Contact */}
         <section id="contact" className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-32">
           <div className="border-t border-line pt-6">
-            <p className="font-mono text-xs tracking-widest text-accent">04</p>
+            <p className="font-mono text-xs tracking-widest text-accent">05</p>
             <h2 className="mt-6 max-w-4xl font-serif text-[clamp(2.75rem,8vw,6.5rem)] leading-[0.95] tracking-tight">
               Have something worth building? <span className="italic text-accent">Let&apos;s talk.</span>
             </h2>

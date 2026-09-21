@@ -1,0 +1,15 @@
+{
+  "name": "cv",
+  "private": true,
+  "type": "module",
+  "description": "Master CV database and PDF generator. Kept separate from the portfolio app.",
+  "scripts": {
+    "build": "node build.mjs",
+    "build:master": "node build.mjs --variant=master",
+    "build:general": "node build.mjs --variant=general"
+  },
+  "dependencies": {
+    "yaml": "^2.6.1",
+    "playwright-core": "1.63.0"
+  }
+}

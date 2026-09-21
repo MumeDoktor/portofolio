@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.vercel
+
+# CV build tooling: dependencies and generated documents
+cv/node_modules
+cv/out
