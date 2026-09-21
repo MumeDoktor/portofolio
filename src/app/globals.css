@@ -92,3 +92,84 @@ body {
     animation: none;
   }
 }
+
+/* Scroll reveal. Visible by default, so the page still reads without
+   JavaScript; the .js class (set before paint) hides them until observed. */
+.reveal {
+  transition:
+    opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+html.js .reveal:not([data-shown="true"]) {
+  opacity: 0;
+  transform: translateY(18px);
+  will-change: opacity, transform;
+}
+
+/* A soft light that follows the pointer across a card */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  background: radial-gradient(
+    20rem circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in oklab, var(--accent) 26%, transparent),
+    transparent 62%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+.spotlight:hover::before {
+  opacity: 1;
+}
+
+/* Year markers that stay put while their projects scroll past */
+.year-marker {
+  position: sticky;
+  top: 4.5rem;
+  z-index: 10;
+  backdrop-filter: blur(6px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .spotlight::before {
+    display: none;
+  }
+  .year-marker {
+    position: static;
+  }
+}
+
+/* Accent glow behind the hero that eases toward the pointer */
+.hero-glow {
+  background: radial-gradient(
+    38rem circle at var(--gx, 35%) var(--gy, 30%),
+    color-mix(in oklab, var(--accent) 13%, transparent),
+    transparent 70%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-glow {
+    background: radial-gradient(
+      38rem circle at 35% 30%,
+      color-mix(in oklab, var(--accent) 10%, transparent),
+      transparent 70%
+    );
+  }
+}

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { NavLinks } from "./NavLinks";
 import { profile } from "@/content/profile";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -25,15 +26,7 @@ export function Nav() {
           <span className="hidden text-sm font-medium sm:block">{profile.name}</span>
         </Link>
         <div className="flex items-center gap-1 sm:gap-2">
-          <ul className="flex items-center font-mono text-[11px] uppercase tracking-wider text-muted sm:text-xs">
-            {sections.map((s) => (
-              <li key={s.href} className={s.desktopOnly ? "hidden sm:block" : undefined}>
-                <Link href={s.href} className="rounded px-2 py-1 transition-colors hover:text-fg">
-                  {s.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <NavLinks sections={sections} />
           <ThemeToggle />
         </div>
       </nav>

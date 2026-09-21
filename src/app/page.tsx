@@ -2,7 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
+import { Counter } from "@/components/Counter";
+import { HeroGlow } from "@/components/HeroGlow";
 import { ProjectAvatar } from "@/components/ProjectAvatar";
+import { Reveal } from "@/components/Reveal";
+import { ScrollProgress } from "@/components/ScrollProgress";
+import { Spotlight } from "@/components/Spotlight";
 import { ArrowIcon, SectionHeading, StatusDot, Tag } from "@/components/ui";
 import { education, experience, languages, profile, skills } from "@/content/profile";
 import { projects } from "@/content/projects";
@@ -18,10 +23,12 @@ export default function Home() {
 
   return (
     <>
+      <ScrollProgress />
       <Nav />
       <main>
         {/* Hero */}
         <section className="relative overflow-hidden">
+          <HeroGlow />
           <div className="grid-bg pointer-events-none absolute inset-0" aria-hidden />
           <div className="relative mx-auto max-w-6xl px-4 pt-20 pb-20 sm:px-6 sm:pt-28 sm:pb-28">
             <p className="rise flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs uppercase tracking-widest text-muted">
@@ -70,7 +77,9 @@ export default function Home() {
               {stats.map((s) => (
                 <div key={s.label}>
                   <dt className="sr-only">{s.label}</dt>
-                  <dd className="font-serif text-4xl sm:text-5xl">{s.value}</dd>
+                  <dd className="font-serif text-4xl sm:text-5xl">
+                    <Counter value={s.value} />
+                  </dd>
                   <dd className="mt-1 text-xs leading-snug text-muted sm:text-sm">{s.label}</dd>
                 </div>
               ))}
@@ -92,8 +101,8 @@ export default function Home() {
                 </p>
               ))}
 
-              <div className="grid gap-4 pt-4 sm:grid-cols-[1.4fr_1fr]">
-                <div className="rounded-2xl border border-line p-5">
+              <Spotlight className="grid gap-4 pt-4 sm:grid-cols-[1.4fr_1fr]">
+                <div className="spotlight rounded-2xl border border-line p-5 transition-colors hover:border-fg/30">
                   <h3 className="font-mono text-xs uppercase tracking-wider text-muted">Education</h3>
                   <ul className="mt-4 space-y-4">
                     {education.map((e) => (
@@ -105,7 +114,7 @@ export default function Home() {
                     ))}
                   </ul>
                 </div>
-                <div className="rounded-2xl border border-line p-5">
+                <div className="spotlight rounded-2xl border border-line p-5 transition-colors hover:border-fg/30">
                   <h3 className="font-mono text-xs uppercase tracking-wider text-muted">Languages</h3>
                   <ul className="mt-4 space-y-3">
                     {languages.map((l) => (
@@ -116,7 +125,7 @@ export default function Home() {
                     ))}
                   </ul>
                 </div>
-              </div>
+              </Spotlight>
             </div>
             <div className="self-start divide-y divide-line border-y border-line">
               {skills.map((g) => (
@@ -137,8 +146,8 @@ export default function Home() {
         <section id="experience" className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
           <SectionHeading index="02" title="Experience" kicker="From teaching myself at 16 to building production apps." />
           <ol className="relative space-y-12 border-l border-line pl-6 sm:space-y-16 sm:pl-10">
-            {experience.map((job) => (
-              <li key={job.company + job.role} className="relative">
+            {experience.map((job, i) => (
+              <Reveal as="li" key={job.company + job.role} delay={i * 60} className="relative">
                 <span
                   className="absolute top-2 -left-[calc(1.5rem+4.5px)] size-2 rounded-full bg-accent ring-4 ring-bg sm:-left-[calc(2.5rem+4.5px)]"
                   aria-hidden
@@ -181,7 +190,7 @@ export default function Home() {
                     )}
                   </div>
                 </div>
-              </li>
+              </Reveal>
             ))}
           </ol>
         </section>
@@ -199,15 +208,16 @@ export default function Home() {
                 {/* Grouped by the year each project finished, unless timelineYear says otherwise. */}
                 {(p.timelineYear ?? p.year.slice(-4)) !==
                   (projects[i - 1]?.timelineYear ?? projects[i - 1]?.year.slice(-4)) && (
-                  <p className="flex items-center gap-4 pt-10 font-serif text-5xl text-accent sm:text-6xl" aria-hidden>
+                  <p className="year-marker flex items-center gap-4 bg-bg/80 py-6 font-serif text-5xl text-accent sm:text-6xl" aria-hidden>
                     {p.timelineYear ?? p.year.slice(-4)}
                     <span className="h-px flex-1 bg-line" />
                   </p>
                 )}
-                <Link
-                  href={`/projects/${p.slug}`}
-                  className="group grid gap-4 py-8 transition-colors sm:grid-cols-[4rem_1fr_auto] sm:gap-8 sm:py-10"
-                >
+                <Reveal>
+                  <Link
+                    href={`/projects/${p.slug}`}
+                    className="group grid gap-4 py-8 transition-colors sm:grid-cols-[4rem_1fr_auto] sm:gap-8 sm:py-10"
+                  >
                   <span className="font-mono text-sm text-muted transition-colors group-hover:text-accent">
                     {String(i + 1).padStart(2, "0")}
                   </span>
@@ -277,8 +287,9 @@ export default function Home() {
                     <span className="grid size-11 place-items-center rounded-full border border-line transition-colors group-hover:border-accent group-hover:bg-accent group-hover:text-accent-fg">
                       <ArrowIcon />
                     </span>
-                  </div>
-                </Link>
+                    </div>
+                  </Link>
+                </Reveal>
               </li>
             ))}
           </ol>

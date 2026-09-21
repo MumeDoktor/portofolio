@@ -102,6 +102,7 @@ import ttAccounts from "../../assets/tiktok-agent-control/dashboard/accounts.png
 import ttAgent from "../../assets/tiktok-agent-control/dashboard/agent.png";
 import ttAudience from "../../assets/tiktok-agent-control/dashboard/audience.png";
 import ttVideos from "../../assets/tiktok-agent-control/dashboard/videos.png";
+import ttVideoPoster from "../../assets/tiktok-agent-control/dashboard/video-poster.png";
 
 // Biblioteka: captured from the running app, with emails and classmates' surnames redacted
 import bibLogin from "../../assets/biblioteka/login.png";
@@ -126,6 +127,14 @@ import aaBankConnected from "../../assets/aafas/bank-connected.png";
 import aaReport from "../../assets/aafas/report.png";
 import aaHealthScore from "../../assets/aafas/health-score.png";
 import aaVideoPoster from "../../assets/aafas/video-poster.png";
+
+// Agentic Video Editing: After Effects being driven by the agent
+import aveOutputPoster from "../../assets/agentic-video-editing/output-poster.png";
+import aveBuildPoster from "../../assets/agentic-video-editing/build-poster.png";
+import aveBuildMid from "../../assets/agentic-video-editing/build-mid.png";
+import aveBuildComplete from "../../assets/agentic-video-editing/build-complete.png";
+import aveTerminal from "../../assets/agentic-video-editing/pipeline-terminal.png";
+import aveWarning from "../../assets/agentic-video-editing/warning-replan.png";
 
 export type Category = "Mobile" | "AI & Agents" | "Full-stack" | "Frontend" | "Tooling";
 
@@ -175,6 +184,8 @@ export type ProjectVideo = {
   src: string;
   poster: StaticImageData;
   caption: string;
+  // True when the clip carries meaningful audio.
+  hasSound?: boolean;
 };
 
 export type Project = {
@@ -1129,11 +1140,13 @@ export const projects: Project[] = [
         src: "/media/interview-coach-call.mp4",
         poster: aicCallPoster,
         caption: "the AI interviewer asks the first question, out loud",
+        hasSound: true,
       },
       {
         src: "/media/interview-coach-coaching.mp4",
         poster: aicCoachingPoster,
         caption: "the transcript builds while coaching tips appear",
+        hasSound: true,
       },
     ],
     desktop: [
@@ -1245,6 +1258,13 @@ export const projects: Project[] = [
       label: "Agentic Video Editing",
       note: "Two halves of one system. This side watches the account and decides what to make; the editing agent builds the clip inside After Effects and hands back a project to review.",
     },
+    videos: [
+      {
+        src: "/media/tiktok-agent-dashboard.mp4",
+        poster: ttVideoPoster,
+        caption: "the control room: account, autopilot, Nova's read of the numbers and the clips it made",
+      },
+    ],
     desktop: [
       { src: ttAgent, caption: "Account: autopilot, Nova chat and clips it made" },
       { src: ttAudience, caption: "Audience trends and Nova's analysis" },
@@ -1341,6 +1361,25 @@ export const projects: Project[] = [
       "Coordinating several agents without a framework."
     ],
     stack: ["TypeScript", "Anthropic SDK", "Zod", "After Effects", "ExtendScript", "ffmpeg"],
+    videos: [
+      {
+        src: "/media/ae-agent-output.mp4",
+        poster: aveOutputPoster,
+        caption: "the finished clip the agent made: cut, captions, treatments and cutaways",
+        hasSound: true,
+      },
+      {
+        src: "/media/ae-agent-build.mp4",
+        poster: aveBuildPoster,
+        caption: "After Effects building the edit on its own: the cut, then treatments, then caption cards (sped up)",
+      },
+    ],
+    desktop: [
+      { src: aveBuildMid, caption: "A text treatment lands on the cut while the timeline fills" },
+      { src: aveBuildComplete, caption: "Pipeline done: 12 caption cards placed, project saved to edit.aep" },
+      { src: aveTerminal, caption: "The pipeline reporting each stage as it runs" },
+      { src: aveWarning, caption: "It warns before the After Effects build starts, with no pause between stages" },
+    ],
     related: {
       slug: "tiktok-agent-control",
       label: "TikTok Agent Control",

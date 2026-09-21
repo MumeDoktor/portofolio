@@ -5,7 +5,11 @@ import { notFound } from "next/navigation";
 import { Footer } from "@/components/Footer";
 import { Gallery } from "@/components/Gallery";
 import { Nav } from "@/components/Nav";
+import { Counter } from "@/components/Counter";
 import { ProjectAvatar } from "@/components/ProjectAvatar";
+import { Reveal } from "@/components/Reveal";
+import { ScrollProgress } from "@/components/ScrollProgress";
+import { Spotlight } from "@/components/Spotlight";
 import { ArrowIcon, StatusDot, Tag } from "@/components/ui";
 import {
   getProject,
@@ -52,6 +56,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
 
   return (
     <>
+      <ScrollProgress />
       <Nav />
       <main className="mx-auto max-w-6xl px-4 sm:px-6">
         <article>
@@ -146,26 +151,43 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
           {project.videos && (
             <section className="mt-16 sm:mt-24" aria-label="Product walkthrough">
               <h2 className="mb-6 font-mono text-xs uppercase tracking-widest text-muted">
-                Watch it run <span className="text-accent">· sound on</span>
+                Watch it run
+                {project.videos.some((v) => v.hasSound) && <span className="text-accent"> · sound on</span>}
               </h2>
-              <div className="grid gap-8 lg:grid-cols-2">
-                {project.videos.map((v) => (
-                  <figure key={v.src}>
-                    <video
-                      controls
-                      playsInline
-                      preload="none"
-                      poster={v.poster.src}
-                      className="w-full rounded-2xl border border-line shadow-xl shadow-black/10"
-                    >
-                      <source src={v.src} type="video/mp4" />
-                    </video>
-                    <figcaption className="mt-3 font-mono text-[11px] uppercase tracking-wider text-muted">
-                      {v.caption}
-                    </figcaption>
-                  </figure>
-                ))}
-              </div>
+              {(() => {
+                const portrait = project.videos.filter((v) => v.poster.height > v.poster.width);
+                const mixed = portrait.length > 0 && portrait.length < project.videos.length;
+                const layout = mixed
+                  ? "grid items-start gap-8 lg:grid-cols-[19rem_1fr]"
+                  : project.videos.length > 1
+                    ? "grid gap-8 lg:grid-cols-2"
+                    : "grid gap-10";
+                return (
+                  <div className={layout}>
+                    {project.videos.map((v) => (
+                      <figure
+                        key={v.src}
+                        className={
+                          v.poster.height > v.poster.width && !mixed ? "mx-auto w-full max-w-[19rem]" : "w-full"
+                        }
+                      >
+                        <video
+                          controls
+                          playsInline
+                          preload="none"
+                          poster={v.poster.src}
+                          className="w-full rounded-2xl border border-line shadow-xl shadow-black/10"
+                        >
+                          <source src={v.src} type="video/mp4" />
+                        </video>
+                        <figcaption className="mt-3 font-mono text-[11px] uppercase tracking-wider text-muted">
+                          {v.caption}
+                        </figcaption>
+                      </figure>
+                    ))}
+                  </div>
+                );
+              })()}
             </section>
           )}
 
@@ -203,10 +225,15 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
                 <h2 className="font-mono text-xs uppercase tracking-widest text-muted">What I built</h2>
                 <ol className="mt-6 divide-y divide-line border-y border-line">
                   {project.highlights.map((h, i) => (
-                    <li key={h} className="grid grid-cols-[2.5rem_1fr] gap-2 py-5 leading-relaxed">
+                    <Reveal
+                      as="li"
+                      key={h}
+                      delay={Math.min(i, 6) * 40}
+                      className="grid grid-cols-[2.5rem_1fr] gap-2 py-5 leading-relaxed"
+                    >
                       <span className="font-mono text-xs text-accent tabular-nums pt-1">{String(i + 1).padStart(2, "0")}</span>
                       {h}
-                    </li>
+                    </Reveal>
                   ))}
                 </ol>
               </section>
@@ -216,16 +243,16 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
               {project.learned && (
                 <section className="mt-16">
                   <h2 className="font-mono text-xs uppercase tracking-widest text-muted">What I learned</h2>
-                  <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+                  <Spotlight as="ul" className="mt-6 grid gap-3 sm:grid-cols-2">
                     {project.learned.map((l) => (
-                      <li key={l} className="flex gap-3 rounded-xl border border-line bg-surface/40 p-4 text-sm leading-relaxed">
+                      <li key={l} className="spotlight flex gap-3 rounded-xl border border-line bg-surface/40 p-4 text-sm leading-relaxed">
                         <span className="text-accent" aria-hidden>
                           ✦
                         </span>
                         {l}
                       </li>
                     ))}
-                  </ul>
+                  </Spotlight>
                 </section>
               )}
             </div>
@@ -384,7 +411,7 @@ function FlowSection({ steps }: { steps: (string | FlowStep)[] }) {
       {detailed ? (
         <ol className="mt-6">
           {items.map((st, i) => (
-            <li key={st.title} className="relative grid grid-cols-[2.25rem_1fr] gap-4 pb-8 last:pb-0">
+            <Reveal as="li" key={st.title} delay={i * 70} className="relative grid grid-cols-[2.25rem_1fr] gap-4 pb-8 last:pb-0">
               {i < items.length - 1 && (
                 <span className="absolute top-9 bottom-0 left-[1.0625rem] w-px bg-line" aria-hidden />
               )}
@@ -402,7 +429,7 @@ function FlowSection({ steps }: { steps: (string | FlowStep)[] }) {
                 </div>
                 {st.detail && <p className="mt-1.5 text-sm leading-relaxed text-muted">{st.detail}</p>}
               </div>
-            </li>
+            </Reveal>
           ))}
         </ol>
       ) : (
@@ -441,11 +468,11 @@ function ArchitectureSection({ layers }: { layers: ArchLayer[] }) {
               </div>
             )}
             <p className="mb-2 font-mono text-[10px] uppercase tracking-widest text-muted">{layer.label}</p>
-            <ul className={`grid gap-2 ${layer.nodes.length > 1 ? "sm:grid-cols-2" : ""} ${layer.nodes.length > 2 ? "lg:grid-cols-3" : ""} ${layer.nodes.length > 3 ? "lg:grid-cols-4" : ""}`}>
+            <Spotlight as="ul" className={`grid gap-2 ${layer.nodes.length > 1 ? "sm:grid-cols-2" : ""} ${layer.nodes.length > 2 ? "lg:grid-cols-3" : ""} ${layer.nodes.length > 3 ? "lg:grid-cols-4" : ""}`}>
               {layer.nodes.map((n) => (
                 <li
                   key={n.name}
-                  className={`rounded-xl border p-3.5 ${n.mine ? "border-accent/60 bg-accent/[0.06]" : "border-line bg-surface/50"}`}
+                  className={`spotlight rounded-xl border p-3.5 transition-transform duration-300 hover:-translate-y-0.5 ${n.mine ? "border-accent/60 bg-accent/[0.06]" : "border-line bg-surface/50"}`}
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="text-sm font-medium">{n.name}</span>
@@ -458,7 +485,7 @@ function ArchitectureSection({ layers }: { layers: ArchLayer[] }) {
                   <p className="mt-1 text-xs leading-relaxed text-muted">{n.detail}</p>
                 </li>
               ))}
-            </ul>
+            </Spotlight>
           </div>
         ))}
       </div>
@@ -468,14 +495,16 @@ function ArchitectureSection({ layers }: { layers: ArchLayer[] }) {
 
 function StatsStrip({ stats }: { stats: Stat[] }) {
   return (
-    <dl className="mt-4 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line lg:grid-cols-4">
+    <Spotlight as="dl" className="mt-4 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line lg:grid-cols-4">
       {stats.map((st) => (
-        <div key={st.label} className="bg-bg p-5">
-          <dd className="font-serif text-3xl leading-none sm:text-4xl">{st.value}</dd>
+        <div key={st.label} className="spotlight bg-bg p-5">
+          <dd className="font-serif text-3xl leading-none sm:text-4xl">
+            <Counter value={st.value} />
+          </dd>
           <dt className="mt-2 text-xs leading-snug text-muted">{st.label}</dt>
         </div>
       ))}
-    </dl>
+    </Spotlight>
   );
 }
 
@@ -483,9 +512,14 @@ function ChallengesSection({ challenges }: { challenges: Challenge[] }) {
   return (
     <section className="mt-16">
       <h2 className="font-mono text-xs uppercase tracking-widest text-muted">Challenges I solved</h2>
-      <ol className="mt-6 space-y-4">
+      <Spotlight as="ol" className="mt-6 space-y-4">
         {challenges.map((c, i) => (
-          <li key={c.problem} className="rounded-2xl border border-line p-5">
+          <Reveal
+            as="li"
+            key={c.problem}
+            delay={i * 50}
+            className="spotlight rounded-2xl border border-line p-5 transition-colors hover:border-fg/30"
+          >
             <p className="flex gap-3 font-medium leading-snug">
               <span className="font-mono text-xs text-accent tabular-nums pt-0.5">{String(i + 1).padStart(2, "0")}</span>
               {c.problem}
@@ -494,9 +528,9 @@ function ChallengesSection({ challenges }: { challenges: Challenge[] }) {
               <span className="font-mono text-[10px] uppercase tracking-widest text-accent">Solution · </span>
               {c.solution}
             </p>
-          </li>
+          </Reveal>
         ))}
-      </ol>
+      </Spotlight>
     </section>
   );
 }
