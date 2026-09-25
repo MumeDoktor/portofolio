@@ -123,7 +123,9 @@ const projectsHtml = (variant.projects ?? [])
             .join(" · ");
     // "pending" is an internal marker and must never reach the document
     const status = rawStatus && !/pending/i.test(rawStatus) ? rawStatus : "";
-    const bullets = bulletsFor(p, entry.bullets)
+    // `with` folds in bullets from the paired project shown under the same heading.
+    const paired = entry.with ? bulletsFor(projectById(entry.with.id), entry.with.bullets) : [];
+    const bullets = [...bulletsFor(p, entry.bullets), ...paired]
       .map((t) => `<li>${esc(t)}</li>`)
       .join("\n");
     return `

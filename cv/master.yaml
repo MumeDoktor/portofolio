@@ -420,12 +420,12 @@ projects:
     employer: null
     year: 2026
     role: Sole engineer
-    status_of_product: Prototype, read-only against the real account
+    status_of_product: Prototype; posts to the real account through an Android phone
     status: confirmed
     source: repo + running dashboard
     link: /projects/tiktok-agent-control
     pairs_with: agentic-video-editing
-    stack: [TypeScript, "Next.js", Claude, SQLite, Drizzle, ffmpeg, yt-dlp, Remotion]
+    stack: [TypeScript, "Next.js", Claude, SQLite, Drizzle, ffmpeg, yt-dlp, Remotion, Python, adb, uiautomator2]
     what_it_is: >-
       A control room where one agent per TikTok account reads the analytics,
       decides what to make next, and drives production of the clip.
@@ -438,6 +438,9 @@ projects:
         status: confirmed
       - text: Sourcing limited to verifiable public-domain footage, with clips marked unverified until rights are asserted.
         status: confirmed
+      - text: Built automatic publishing through TikTok on an Android phone driven over adb and uiautomator2, since TikTok's API won't post for an unaudited app.
+        status: confirmed
+        internal: src/lib/tiktok_phone.py and src/agent/publish.ts; recorded dry run 2026-09-24
 
   - id: agentic-video-editing
     name: Agentic Video Editing

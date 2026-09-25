@@ -109,7 +109,7 @@ general:
   projects:
     - { id: fitmind, bullets: [0, 3, 5, 1] }
     - { id: interview-coach, bullets: [0, 1, 3] }
-    - { id: agentic-video-editing, label: with TikTok Agent Control, bullets: [0, 1, 3] }
+    - { id: agentic-video-editing, label: with TikTok Agent Control, bullets: [0, 1], with: { id: tiktok-agent, bullets: [4] } }
     - { id: aafas, bullets: [0, 1] }
   skills:
     - { group: mobile, label: Mobile }
