@@ -103,6 +103,7 @@ import ttAgent from "../../assets/tiktok-agent-control/dashboard/agent.png";
 import ttAudience from "../../assets/tiktok-agent-control/dashboard/audience.png";
 import ttVideos from "../../assets/tiktok-agent-control/dashboard/videos.png";
 import ttVideoPoster from "../../assets/tiktok-agent-control/dashboard/video-poster.png";
+import ttAutopostPoster from "../../assets/tiktok-agent-control/phone/autopost-poster.jpg";
 
 // Biblioteka: captured from the running app, with emails and classmates' surnames redacted
 import bibLogin from "../../assets/biblioteka/login.png";
@@ -1199,7 +1200,7 @@ export const projects: Project[] = [
   {
     slug: "tiktok-agent-control",
     title: "TikTok Agent Control",
-    tagline: "An AI agent that runs a TikTok account's content: it reads the numbers, decides what to make, and builds the video.",
+    tagline: "An AI agent that runs a TikTok account's content: it reads the numbers, decides what to make, builds the video and posts it.",
     year: "2026",
     status: "Prototype",
     category: "AI & Agents",
@@ -1207,20 +1208,22 @@ export const projects: Project[] = [
     brief: {
       problem: "Running a content account means reading the analytics, deciding what to make next and then making it. Those are usually three different tools, and none of them remembers the account.",
       contribution: "Solo: the architecture, the agent and its memory, the video pipeline, the background worker and the dashboard.",
-      result: "A prototype where one agent per account reads real numbers, plans the next clip and builds it. Posting stays with me: the app holds read-only access and cannot publish.",
+      result: "A prototype where one agent per account reads real numbers, plans the next clip, builds it and posts it at the account's best time, through a real Android phone running TikTok.",
       shipping: [
-        { label: "Prototype", value: "Runs locally with a background worker; read-only access to TikTok" },
+        { label: "Prototype", value: "Runs locally with a background worker; read-only TikTok API access" },
+        { label: "Auto-posting", value: "Through a USB-connected Android phone; opt-in, with a dry-run mode that stops before Post" },
       ],
     },
     summary:
-      "A control room where each TikTok account has its own agent. Mine is called Nova. It knows only its account: the analytics, the posts that worked and failed, and the content rules you set. It reads that data, writes an honest analysis of what's working, decides what to make next and produces the clip.\n\nYou can ask for a video in the chat or switch on Autopilot, which makes three videos a week timed to the account's best posting slots and notifies you when each one is ready. Posting stays with you. The app never publishes on its own.",
+      "A control room where each TikTok account has its own agent. Mine is called Nova. It knows only its account: the analytics, the posts that worked and failed, and the content rules you set. It reads that data, writes an honest analysis of what's working, decides what to make next and produces the clip.\n\nYou can ask for a video in the chat or switch on Autopilot, which makes three videos a week timed to the account's best posting slots. TikTok's API won't let an unaudited app post, so publishing goes through the TikTok app on a real Android phone plugged into the PC: at the slot the video is copied over, opened in TikTok's editor, captioned with its hashtags and posted, with no one touching the phone.",
     highlights: [
       "One agent per account with layered memory: a binding content profile, standing directives distilled from chat (say \"stop using trending audio\" once and it holds), and live data.",
       "Account analysis written by Claude from real numbers: which topics and lengths carry the account, when posting works, and what is dragging the median down.",
       "Autopilot that schedules three videos a week from the account's own best times, starting each build three hours before its slot, with a Windows notification when it's done.",
+      "Automatic publishing through a real phone: the worker copies the finished video over adb, opens it in TikTok, types the caption and hashtags and taps Post. Buttons are found by their text with uiautomator2, not by screen position, so it works on any screen size.",
       "Video production pipeline: find a source (long YouTube interviews, or public-domain footage from DVIDS and the Internet Archive), turn captions into sentences, pick the moment, then cut and caption it.",
       "Two render paths: Remotion for finished clips, or a bridge to my After Effects agent that leaves an edit in an AE project for a human to review.",
-      "Rights-first safety rails: footage starts as unverified, music comes only from a folder the owner filled, and the app keeps read-only access so it can't post.",
+      "Rights-first safety rails: footage starts as unverified, music comes only from a folder the owner filled, and phone posting is opt-in, with a dry run that stops on the Post screen.",
       "Background worker where every step is a row in a jobs table with retries and exponential backoff, so one failed download never stalls the pipeline.",
       "Dashboard with follower and view trends, per-video stats, the agent chat and a live log of what the agent is doing and why.",
     ],
@@ -1245,19 +1248,26 @@ export const projects: Project[] = [
           { name: "After Effects agent", detail: "Builds the edit inside After Effects for review.", mine: "My other project" },
         ],
       },
+      {
+        label: "Publishing",
+        nodes: [
+          { name: "Phone driver", detail: "Python + uiautomator2 over adb: opens the video in TikTok, writes the caption, taps Post.", mine: "Built solo" },
+          { name: "Android phone", detail: "Plugged into the PC over USB, logged in to the account." },
+        ],
+      },
     ],
     flow: [
       { title: "Sync the account", where: "Worker", detail: "Followers, views, likes and per-video stats are pulled into snapshots." },
       { title: "Read the numbers", where: "Claude", detail: "Nova writes what's actually working and what to make next, from live data only." },
       { title: "Find the source", where: "yt-dlp · DVIDS", detail: "A long interview or public-domain footage that tells the chosen story." },
       { title: "Cut the clip", where: "ffmpeg · Remotion · AE", detail: "Captions become sentences, the moment is picked, then it's cut, captioned and rendered." },
-      { title: "Hand it over", where: "You", detail: "A notification says the clip is ready. You review it and post it yourself." },
+      { title: "Post it", where: "Android phone", detail: "At the slot, the worker opens the clip in TikTok on the phone, writes the caption and hashtags and taps Post. A late clip goes out as soon as it's ready." },
     ],
     stats: [
       { value: "1", label: "agent per account, with memory of only that account" },
       { value: "3", label: "videos a week on Autopilot, timed to the account's best slots" },
       { value: "20", label: "integrations: sources, media, voice and rendering" },
-      { value: "0", label: "posts published without me reviewing the clip first" },
+      { value: "0", label: "taps on the phone: the video is opened, captioned and posted by the agent" },
     ],
     challenges: [
       {
@@ -1279,6 +1289,10 @@ export const projects: Project[] = [
       {
         problem: "Podcast captions arrive as one long stream of words.",
         solution: "They're grouped into sentences first, so cuts, captions and effects land on real sentence boundaries."
+      },
+      {
+        problem: "TikTok's API won't publish for an app that hasn't passed its audit.",
+        solution: "The video is posted the way a person would: through the TikTok app on an Android phone, driven over adb. Pop-ups are dismissed as they appear, every run ends with a screenshot, and a failed post retries with backoff."
       }
     ],
     learned: [
@@ -1286,13 +1300,18 @@ export const projects: Project[] = [
       "Building long-running pipelines that recover from failures on their own.",
       "Treating rights and safety as product requirements, not an afterthought."
     ],
-    stack: ["Next.js", "TypeScript", "Claude", "SQLite", "Drizzle", "ffmpeg", "yt-dlp", "Remotion", "Zod"],
+    stack: ["Next.js", "TypeScript", "Claude", "SQLite", "Drizzle", "ffmpeg", "yt-dlp", "Remotion", "Zod", "Python", "adb", "uiautomator2"],
     related: {
       slug: "agentic-video-editing",
       label: "Agentic Video Editing",
       note: "Two halves of one system. This side watches the account and decides what to make; the editing agent builds the clip inside After Effects and hands back a project to review.",
     },
     videos: [
+      {
+        src: "/media/tiktok-agent-autopost.mp4",
+        poster: ttAutopostPoster,
+        caption: "automatic publishing: TikTok opens the clip, the caption and hashtags are typed in, and it lands on Post. This recording is a dry run, so it stops there",
+      },
       {
         src: "/media/tiktok-agent-dashboard.mp4",
         poster: ttVideoPoster,
