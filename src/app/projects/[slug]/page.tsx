@@ -159,17 +159,36 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
                 Watch it run
                 {project.videos.some((v) => v.hasSound) && <span className="text-accent"> · sound on</span>}
               </h2>
+              {project.videos
+                .filter((v) => v.wide)
+                .map((v) => (
+                  <figure key={v.src} className="mb-8 w-full">
+                    <video
+                      controls
+                      playsInline
+                      preload="none"
+                      poster={v.poster.src}
+                      className="w-full rounded-2xl border border-line shadow-xl shadow-black/10"
+                    >
+                      <source src={v.src} type="video/mp4" />
+                    </video>
+                    <figcaption className="mt-3 font-mono text-[11px] uppercase tracking-wider text-muted">
+                      {v.caption}
+                    </figcaption>
+                  </figure>
+                ))}
               {(() => {
-                const portrait = project.videos.filter((v) => v.poster.height > v.poster.width);
-                const mixed = portrait.length > 0 && portrait.length < project.videos.length;
+                const videos = project.videos.filter((v) => !v.wide);
+                const portrait = videos.filter((v) => v.poster.height > v.poster.width);
+                const mixed = portrait.length > 0 && portrait.length < videos.length;
                 const layout = mixed
                   ? "grid items-start gap-8 lg:grid-cols-[19rem_1fr]"
-                  : project.videos.length > 1
+                  : videos.length > 1
                     ? "grid gap-8 lg:grid-cols-2"
                     : "grid gap-10";
                 return (
                   <div className={layout}>
-                    {project.videos.map((v) => (
+                    {videos.map((v) => (
                       <figure
                         key={v.src}
                         className={

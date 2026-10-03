@@ -103,7 +103,8 @@ import ttAgent from "../../assets/tiktok-agent-control/dashboard/agent.png";
 import ttAudience from "../../assets/tiktok-agent-control/dashboard/audience.png";
 import ttVideos from "../../assets/tiktok-agent-control/dashboard/videos.png";
 import ttVideoPoster from "../../assets/tiktok-agent-control/dashboard/video-poster.png";
-import ttAutopostPoster from "../../assets/tiktok-agent-control/phone/autopost-poster.jpg";
+import ttFullFlowPoster from "../../assets/tiktok-agent-control/full-flow-poster.jpg";
+import ttAutopostPoster from"../../assets/tiktok-agent-control/phone/autopost-poster.jpg";
 
 // Biblioteka: captured from the running app, with emails and classmates' surnames redacted
 import bibLogin from "../../assets/biblioteka/login.png";
@@ -198,6 +199,8 @@ export type ProjectVideo = {
   caption: string;
   // True when the clip carries meaningful audio.
   hasSound?: boolean;
+  // Shown full width on its own row, above the other clips.
+  wide?: boolean;
 };
 
 export type Project = {
@@ -1307,6 +1310,12 @@ export const projects: Project[] = [
       note: "Two halves of one system. This side watches the account and decides what to make; the editing agent builds the clip inside After Effects and hands back a project to review.",
     },
     videos: [
+      {
+        src: "/media/tiktok-agent-full-flow.mp4",
+        poster: ttFullFlowPoster,
+        caption: "the whole system in one real run: the agent builds the edit in After Effects and exports it, I approve it in Telegram, the phone posts it to TikTok on its own, and the bot confirms (sped up)",
+        wide: true,
+      },
       {
         src: "/media/tiktok-agent-autopost.mp4",
         poster: ttAutopostPoster,
