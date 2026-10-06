@@ -182,7 +182,9 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
                 const portrait = videos.filter((v) => v.poster.height > v.poster.width);
                 const mixed = portrait.length > 0 && portrait.length < videos.length;
                 const layout = mixed
-                  ? "grid items-start gap-8 lg:grid-cols-[19rem_1fr]"
+                  ? portrait.length > 1
+                    ? "grid items-start gap-8 sm:grid-cols-2 lg:grid-cols-[19rem_19rem_1fr]"
+                    : "grid items-start gap-8 lg:grid-cols-[19rem_1fr]"
                   : videos.length > 1
                     ? "grid gap-8 lg:grid-cols-2"
                     : "grid gap-10";

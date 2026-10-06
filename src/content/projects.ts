@@ -105,6 +105,7 @@ import ttVideos from "../../assets/tiktok-agent-control/dashboard/videos.png";
 import ttVideoPoster from "../../assets/tiktok-agent-control/dashboard/video-poster.png";
 import ttFullFlowPoster from "../../assets/tiktok-agent-control/full-flow-poster.jpg";
 import ttAutopostPoster from"../../assets/tiktok-agent-control/phone/autopost-poster.jpg";
+import ttCommentReplyPoster from "../../assets/tiktok-agent-control/phone/comment-reply-poster.jpg";
 
 // Biblioteka: captured from the running app, with emails and classmates' surnames redacted
 import bibLogin from "../../assets/biblioteka/login.png";
@@ -1320,6 +1321,11 @@ export const projects: Project[] = [
         src: "/media/tiktok-agent-autopost.mp4",
         poster: ttAutopostPoster,
         caption: "automatic publishing: TikTok opens the clip, the caption and hashtags are typed in, and it lands on Post. This recording is a dry run, so it stops there",
+      },
+      {
+        src: "/media/tiktok-agent-comment-reply.mp4",
+        poster: ttCommentReplyPoster,
+        caption: "comment replies: the agent opens a post on the phone, finds the comment, writes a reply and publishes it. A test run on an older clip, because the two newest had no comments yet",
       },
       {
         src: "/media/tiktok-agent-dashboard.mp4",
