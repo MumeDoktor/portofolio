@@ -16,20 +16,17 @@ export default function Image() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: 72,
-          background: "#0f0f0d",
-          color: "#ecebe3",
+          background: "#07090a",
+          color: "#d7e3dd",
+          fontFamily: "monospace",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 26, color: "#98968a" }}>
-          <div style={{ width: 16, height: 16, borderRadius: 16, background: "#ff6b2c" }} />
-          {profile.role.toUpperCase()}
-        </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontSize: 120, lineHeight: 1, letterSpacing: -4 }}>{profile.name}</div>
-          <div style={{ marginTop: 32, fontSize: 32, lineHeight: 1.35, color: "#98968a", maxWidth: 980 }}>
-            {profile.tagline}
-          </div>
+          <div style={{ fontSize: 30, color: "#4dff9a" }}>$ whoami</div>
+          <div style={{ marginTop: 24, fontSize: 92, fontWeight: 700, lineHeight: 1 }}>{profile.name}</div>
+          <div style={{ marginTop: 36, fontSize: 38, lineHeight: 1.35, maxWidth: 1000 }}>{profile.role}</div>
         </div>
+        <div style={{ display: "flex", fontSize: 28, color: "#4dff9a" }}>{profile.location}</div>
       </div>
     ),
     size,

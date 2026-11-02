@@ -269,7 +269,8 @@ const fm = {
 // FitMind screenshots are about 9:19.4
 const fmAspect = "9 / 19.4";
 
-export const projects: Project[] = [
+// Written in the order I built them. Add new projects at the end; the site shows them newest first.
+const inBuildOrder: Project[] = [
   {
     slug: "biblioteka",
     title: "Biblioteka",
@@ -536,7 +537,7 @@ export const projects: Project[] = [
     role: "Junior Full-Stack Developer at P23 · sole developer of the mobile app",
     brief: {
       problem: "GiBud sells and auctions goods in Norway. The website existed; the native app people would actually bid from did not.",
-      contribution: "I was the only developer on the Flutter app — architecture, state management and every screen — and I also built or changed the API routes it depends on for auctions, bids, cart, checkout and purchases. In a team of four, I helped colleagues work through problems they were stuck on and reviewed pull requests.",
+      contribution: "I was the only developer on the Flutter app (architecture, state management and every screen), and I also built or changed the API routes it depends on for auctions, bids, cart, checkout and purchases. In a team of four, I helped colleagues work through problems they were stuck on and reviewed pull requests.",
       result: "The web platform is live in Norway. The mobile app is built and release-ready, waiting on its Google Play release.",
       shipping: [
         { label: "Web platform", value: "Live at gibud.no" },
@@ -700,7 +701,7 @@ export const projects: Project[] = [
     role: "Full-Stack Developer · remote",
     brief: {
       problem: "A credit platform has to keep money moving: reports and subscriptions get billed, and micro-loan repayments still have to be collected when a payment fails.",
-      contribution: "Remote work, mostly on the backend: ASP.NET Core services, database schemas and queries, REST endpoints, and payment and subscription flows — including the automatic re-collection of failed micro-loan repayments. I also built Angular features and internal tools on top of those services.",
+      contribution: "Remote work, mostly on the backend: ASP.NET Core services, database schemas and queries, REST endpoints, and payment and subscription flows, including the automatic re-collection of failed micro-loan repayments. I also built Angular features and internal tools on top of those services.",
       result: "The work went into a production platform, alongside senior engineers who reviewed the database design and the deployments.",
       shipping: [
         { label: "Platform", value: "In production. A client system, so there are no screenshots here" },
@@ -709,7 +710,7 @@ export const projects: Project[] = [
     summary:
       "CreditGenius is a credit platform: credit reports and scores, subscriptions, billing and micro-loans, built on ASP.NET Core with SQL Server and AWS.\n\nI worked on it remotely, mostly on the backend: services, database schemas and queries, REST endpoints and the payment and subscription flows, including the automatic retry of failed micro-loan repayments. When a scheduled repayment doesn't go through, the loan can't be left unpaid, so the system tries again on a schedule instead of waiting for someone to notice. I also built Angular features and internal tools on top of those services.",
     highlights: [
-      "Built and maintained backend services with ASP.NET Core, Entity Framework and SQL Server.",
+      "Built and maintained backend services with ASP.NET Core on AWS Lambda, Entity Framework and SQL Server.",
       "Designed and optimised database schemas, queries and stored procedures.",
       "Implemented business logic, REST API endpoints and payment and subscription workflows in production.",
       "Built the automatic re-collection of failed micro-loan repayments: a failed payment is picked up and retried on a schedule instead of being dropped.",
@@ -774,7 +775,7 @@ export const projects: Project[] = [
       "That money flows need to handle failure as a normal case, not an exception.",
       "Using managed AWS services (S3 for files, SES for email) instead of building those parts myself.",
     ],
-    stack: ["C#", "ASP.NET Core", "Entity Framework", "SQL Server", "Angular", "AWS S3", "Amazon SES"],
+    stack: ["C#", "ASP.NET Core", "AWS Lambda", "Entity Framework", "SQL Server", "Angular", "AWS S3", "Amazon SES"],
   },
   {
     slug: "fitmind-ai",
@@ -811,7 +812,7 @@ export const projects: Project[] = [
       "A webhook from Lemon Squeezy updates the subscription in Firestore, so the paywall reads one source of truth wherever the payment happened. I integrated Paddle first and moved to Lemon Squeezy.",
       "Security: Firebase App Check, Firestore and Storage rules, and token-verified HTTP functions.",
       "Marketing website in React and TypeScript with product videos, pricing, privacy policy, terms and an account-deletion page.",
-      "Took the app through Google Play's release process alone: internal testing, then closed testing, then open testing, then production — including the store listing, the data-safety form and the policy requirements each track adds.",
+      "Took the app through Google Play's release process alone: internal testing, then closed testing, then open testing, then production, including the store listing, the data-safety form and the policy requirements each track adds.",
     ],
     architecture: [
       {
@@ -862,7 +863,7 @@ export const projects: Project[] = [
     challenges: [
       {
         problem: "Getting an app onto Google Play as a solo developer is its own project, not a button at the end.",
-        solution: "I took it through every track myself — internal, then closed, then open testing, then production — fixing what each stage asked for: the store listing, the data-safety declarations and the policy requirements that come with testers.",
+        solution: "I took it through every track myself (internal, then closed, then open testing, then production), fixing what each stage asked for: the store listing, the data-safety declarations and the policy requirements that come with testers.",
       },
       {
         problem: "An AI-written plan is only useful if weeks, days, exercises and progress always line up.",
@@ -870,7 +871,7 @@ export const projects: Project[] = [
       },
       {
         problem: "Monthly recalibration can't simply overwrite the plan someone is following, and the app can't tell from data alone whether a hard month was a good one.",
-        solution: "After the last workout of the month the app asks the user directly — is this pace sustainable, should the number of weekly sessions drop — and adaptPlan proposes the next block from those answers plus real progress. Nothing changes until the user confirms or declines it."
+        solution: "After the last workout of the month the app asks the user directly (is this pace sustainable, should the number of weekly sessions drop) and adaptPlan proposes the next block from those answers plus real progress. Nothing changes until the user confirms or declines it."
       },
       {
         problem: "AI calls cost money, and API keys can't live inside a mobile app.",
@@ -1036,7 +1037,7 @@ export const projects: Project[] = [
       { value: "5 + 5", label: "pure-Python detectors + parallel Claude agents" },
       { value: "< 5 ms", label: "for all detectors on six months of data" },
       { value: "0", label: "raw transactions ever written to disk" },
-      { value: "3", label: "input paths — CSV, PDF and live bank data — into one type" },
+      { value: "3", label: "input paths (CSV, PDF and live bank data) into one type" },
     ],
     challenges: [
       {
@@ -1101,7 +1102,7 @@ export const projects: Project[] = [
     role: "Solo: design, full-stack, AI",
     brief: {
       problem: "Interview practice is usually generic, but the questions that matter come from the actual posting, the actual company and the people who will be in the room.",
-      contribution: "Solo: design, the full-stack build, and the AI work — job analysis, the live voice loop, the coaching tips and the scored report.",
+      contribution: "Solo: design, the full-stack build, and the AI work: job analysis, the live voice loop, the coaching tips and the scored report.",
       result: "A finished product you can run: paste a posting, take a live voice interview, and get a 0–100 report saved to your session history.",
       shipping: [
         { label: "Web app", value: "Complete and running locally; source on GitHub, not publicly deployed" },
@@ -1219,11 +1220,14 @@ export const projects: Project[] = [
       ],
     },
     summary:
-      "A control room where each TikTok account has its own agent. Mine is called Nova. It knows only its account: the analytics, the posts that worked and failed, and the content rules you set. It reads that data, writes an honest analysis of what's working, decides what to make next and produces the clip.\n\nYou can ask for a video in the chat or switch on Autopilot, which makes three videos a week timed to the account's best posting slots. TikTok's API won't let an unaudited app post, so publishing goes through the TikTok app on a real Android phone plugged into the PC: at the slot the video is copied over, opened in TikTok's editor, captioned with its hashtags and posted, with no one touching the phone.",
+      "A control room where each TikTok account has its own agent. Mine is called Nova. It knows only its account: the analytics, the posts that worked and failed, and the content rules you set. It reads that data, writes an honest analysis of what's working, decides what to make next and produces the clip.\n\nYou can ask for a video in the chat or switch on Autopilot, which posts at fixed daily slots, by default twice a day. Finished videos reach me in Telegram with Approve and Reject buttons. TikTok's API won't let an unaudited app post, so publishing goes through the TikTok app on a real Android phone plugged into the PC: at the slot the video is copied over, opened in TikTok's editor, captioned with its hashtags and posted, with no one touching the phone.",
     highlights: [
       "One agent per account with layered memory: a binding content profile, standing directives distilled from chat (say \"stop using trending audio\" once and it holds), and live data.",
       "Account analysis written by Claude from real numbers: which topics and lengths carry the account, when posting works, and what is dragging the median down.",
-      "Autopilot that schedules three videos a week from the account's own best times, starting each build three hours before its slot, with a Windows notification when it's done.",
+      "Autopilot that posts at fixed daily slots (by default 12:00 and 19:00 in the account's timezone), or at the account's measured best hours.",
+      "Telegram as the owner's channel: warnings, milestones and finished videos arrive there with Approve and Reject buttons, and a rejected video can be revised from my notes.",
+      "Long-form 16:9 videos for YouTube, made chapter by chapter from researched sources, with narration, sourced pictures, picture credits, chapter timestamps and resume after a stop.",
+      "Comment reading and reply drafting, plus 18-second teaser versions of finished videos.",
       "Automatic publishing through a real phone: the worker copies the finished video over adb, opens it in TikTok, types the caption and hashtags and taps Post. Buttons are found by their text with uiautomator2, not by screen position, so it works on any screen size.",
       "Video production pipeline: find a source (long YouTube interviews, or public-domain footage from DVIDS and the Internet Archive), turn captions into sentences, pick the moment, then cut and caption it.",
       "Two render paths: Remotion for finished clips, or a bridge to my After Effects agent that leaves an edit in an AE project for a human to review.",
@@ -1269,7 +1273,7 @@ export const projects: Project[] = [
     ],
     stats: [
       { value: "1", label: "agent per account, with memory of only that account" },
-      { value: "3", label: "videos a week on Autopilot, timed to the account's best slots" },
+      { value: "2", label: "posts a day on Autopilot by default, at fixed slots" },
       { value: "20", label: "integrations: sources, media, voice and rendering" },
       { value: "0", label: "taps on the phone: the video is opened, captioned and posted by the agent" },
     ],
@@ -1351,7 +1355,7 @@ export const projects: Project[] = [
     brief: {
       problem: "Matching the editing style of a reference video is expert work done frame by frame, and After Effects has no API an agent can call.",
       contribution: "Solo: the research, PRD, architecture and build, including the ExtendScript bridge that lets an agent drive After Effects.",
-      result: "In progress, with the core loop proven: the agent edits, renders a frame, looks at it with vision and corrects itself — tested with a deliberately misplaced layer it had to catch.",
+      result: "In progress, with the core loop proven: the agent edits, renders a frame, looks at it with vision and corrects itself, tested with a deliberately misplaced layer it had to catch.",
       shipping: [
         { label: "Research build", value: "In progress; runs against a local After Effects install" },
       ],
@@ -1450,16 +1454,88 @@ export const projects: Project[] = [
       note: "Two halves of one system. The agent that watches the account decides what to make, then hands the source and the narration over here to be edited.",
     },
   },
+  {
+    slug: "8rooms-zora-ai",
+    title: "8rooms @ Zora AI",
+    tagline: "My current work at Zora AI: moving a real-estate website's catalogue onto AWS with server-side rendering, and an MCP server so Claude can manage its listings.",
+    year: "2026",
+    status: "In progress",
+    category: "Full-stack",
+    role: "Full-Stack Engineer at Zora AI · remote",
+    brief: {
+      problem: "8rooms' property listings lived in Payload CMS, a listing change needed a rebuild, and search engines and link previews had to get the listing data in the first HTML.",
+      contribution: "The catalogue move and migration scripts, server-side rendering on Amplify, the performance work, reliable contact-form delivery and the MCP server. Others on the team worked on the site's design and on separate services.",
+      result: "A listing edit now reaches the site in about a minute with no rebuild, and the listings payload dropped from 496 KB to 33 KB.",
+      shipping: [
+        { label: "Website", value: "Running on AWS Amplify; work is ongoing. A client system, so there are no screenshots here" },
+      ],
+    },
+    summary:
+      "8rooms is a bilingual real-estate website in Serbia, and my client project at Zora AI. My work is the path a property takes from the database to a visitor's screen.\n\nThe catalogue moved off Payload CMS into a database table served by an edge function, with about 1,400 images across 160 properties moved to S3 and served through CloudFront. Property and listing pages now render on the server on AWS Amplify through a custom adapter, so Google and WhatsApp or Viber link previews see the real listing. On top of that I built an MCP server that lets Claude read and edit listings and images.",
+    highlights: [
+      "Moved the property catalogue off Payload CMS into a database table served by an edge function, so a listing edit reaches the live site in about a minute with no rebuild.",
+      "Wrote the migration scripts that moved the listings and roughly 1,400 images across 160 properties to S3, and redirected old property URLs to the new ones with real 301s.",
+      "Moved property pages, listings and a properties sitemap to server-side rendering on AWS Amplify through my own adapter: only those paths go to the compute, and every other page stays static on the CDN.",
+      "Cut the listings payload from 496 KB to 33 KB by compressing server-rendered responses with brotli or gzip, which Amplify's CDN doesn't do for compute answers.",
+      "Kept pages fast after cache expiry by answering recently seen properties at once and refreshing them in the background, and added a 5-minute warm-up job against cold starts.",
+      "Served images through CloudFront, with generated thumbnails for property cards.",
+      "Made the contact form save every inquiry to the database before emailing it, with a column that flags unsent ones and a honeypot field against bots.",
+      "Built an MCP server that lets Claude read and edit listings and images, through a Claude connector or Claude Code. Each person uses their own access key, and each change is recorded under its owner.",
+    ],
+    architecture: [
+      {
+        label: "Clients",
+        nodes: [
+          { name: "Website", detail: "Bilingual site. Property and listing pages render on the server; the rest stays static.", mine: "Built SSR" },
+          { name: "Claude", detail: "Reads and edits the catalogue through a connector or Claude Code." },
+        ],
+      },
+      {
+        label: "AWS",
+        nodes: [
+          { name: "Amplify compute", detail: "Custom adapter, compression and server-side caching.", mine: "Built" },
+          { name: "S3 + CloudFront", detail: "Property photos and generated thumbnails.", mine: "Migrated" },
+        ],
+      },
+      {
+        label: "Catalogue",
+        nodes: [
+          { name: "Edge function", detail: "Serves published properties and image URLs.", mine: "Built" },
+          { name: "MCP server", detail: "Tools for listings and images, with per-person access keys.", mine: "Built" },
+          { name: "Database", detail: "The catalogue table that replaced Payload CMS for properties.", mine: "Migrated" },
+        ],
+      },
+    ],
+    stats: [
+      { value: "496 → 33 KB", label: "listings payload after compression" },
+      { value: "~1,400", label: "images moved to S3" },
+      { value: "160", label: "properties migrated" },
+      { value: "~1 min", label: "from a listing edit to the live site, no rebuild" },
+    ],
+    challenges: [
+      {
+        problem: "Search engines and WhatsApp or Viber previews only saw a listing after the browser had fetched it.",
+        solution: "Property pages render on request from the live catalogue, so title, description and share image are already in the first HTML.",
+      },
+      {
+        problem: "A listing page arrived as 496 KB of HTML, because the CDN compressed static files but passed server answers through unchanged.",
+        solution: "The server now compresses its own answers with brotli or gzip according to the request, bringing that page down to 33 KB.",
+      },
+      {
+        problem: "The first visitor after a quiet spell waited 1.5 to 3 seconds for a cold start.",
+        solution: "A scheduled job opens the key pages every 5 minutes, so the compute and the catalogue function stay awake and their caches stay full.",
+      },
+      {
+        problem: "A broad cache rule for HTML overrode the property pages' own header, so the CDN never cached them.",
+        solution: "Property paths got their own rule with the server's value, and pages are cached briefly on the CDN and in server memory, with errors left uncached.",
+      },
+    ],
+    stack: ["TypeScript", "Node.js", "AWS S3", "CloudFront", "Amplify", "SSR", "Edge functions", "MCP", "Payload CMS (migrated off)"],
+  },
 ];
 
-/**
- * The three shown at the top of the home page: the commercial app I built
- * alone, the product I shipped to a store, and the AI system I designed end
- * to end. Everything else is further down, in the order I built it.
- */
-export const featured = ["gibud", "fitmind-ai", "ai-interview-coach"]
-  .map((slug) => projects.find((p) => p.slug === slug)!)
-  .filter(Boolean);
+// Newest first: what I'm working on now at the top, my first project at the bottom.
+export const projects = [...inBuildOrder].reverse();
 
 export function getProject(slug: string) {
   return projects.find((p) => p.slug === slug);

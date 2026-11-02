@@ -2,392 +2,230 @@ import Image from "next/image";
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
-import { Counter } from "@/components/Counter";
-import { HeroGlow } from "@/components/HeroGlow";
 import { ProjectAvatar } from "@/components/ProjectAvatar";
-import { Reveal } from "@/components/Reveal";
-import { ScrollProgress } from "@/components/ScrollProgress";
-import { Spotlight } from "@/components/Spotlight";
-import { ArrowIcon, SectionHeading, StatusDot, Tag } from "@/components/ui";
+import { Prompt } from "@/components/Prompt";
+import { Section, StackLine } from "@/components/ui";
 import { education, experience, languages, profile, skills } from "@/content/profile";
-import { featured, projects } from "@/content/projects";
+import { projects, type Project } from "@/content/projects";
 
 export default function Home() {
-  const [first, ...rest] = profile.name.split(" ");
+  const current = projects.filter((p) => p.status === "In progress");
+  const firstJob = experience[experience.length - 1];
+  const github = profile.links.find((l) => l.label === "GitHub")?.href ?? "";
 
-  const stats = [
-    { value: `${profile.yearsExperience}+`, label: "years of professional experience" },
-    { value: String(projects.length), label: "projects shipped or in flight" },
-    { value: "1", label: "app of my own live on Google Play" },
+  const facts = [
+    { label: "availability", value: profile.availability },
+    { label: "location", value: profile.location },
+    { label: "experience", value: `${profile.yearsExperience} years, since ${firstJob.start}` },
+    { label: "studying", value: `${education[0].period}, ${education[0].detail}` },
   ];
 
   return (
     <>
-      <ScrollProgress />
       <Nav />
-      <main>
-        {/* Hero */}
-        <section className="relative overflow-hidden">
-          <HeroGlow />
-          <div className="grid-bg pointer-events-none absolute inset-0" aria-hidden />
-          <div className="relative mx-auto max-w-6xl px-4 pt-20 pb-20 sm:px-6 sm:pt-28 sm:pb-28">
-            <p className="rise flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs uppercase tracking-widest text-muted">
-              <span className="size-2 rounded-full bg-accent" aria-hidden />
-              {profile.role}
-              {profile.location && <span>· {profile.location}</span>}
-            </p>
-            {profile.availability && (
-              <p className="rise mt-5 inline-flex items-center gap-2 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-600 dark:text-emerald-400">
-                <span className="size-1.5 animate-pulse rounded-full bg-emerald-500" aria-hidden />
-                {profile.availability}
+      <main className="mx-auto max-w-5xl px-4 sm:px-8">
+        {/* Intro, as a terminal session */}
+        <section className="py-8 sm:py-14">
+          <div className="border border-line bg-surface">
+            <p className="border-b border-line px-4 py-2 text-sm text-muted">amar@sarajevo: ~</p>
+            <div className="p-4 sm:p-8">
+              <p>
+                <span className="text-accent">$</span> whoami
               </p>
-            )}
-            <h1 className="rise mt-6 font-serif text-[clamp(3.5rem,13vw,10rem)] leading-[0.88] tracking-tight [animation-delay:80ms]">
-              {first}
-              <br />
-              <span className="italic text-accent">{rest.join(" ")}</span>
-            </h1>
-            <p className="rise mt-8 max-w-2xl text-lg leading-relaxed text-muted [animation-delay:160ms] sm:text-xl">
-              {profile.tagline}
-            </p>
-            <div className="rise mt-10 flex flex-wrap gap-3 [animation-delay:240ms]">
-              <Link
-                href="#selected"
-                className="inline-flex items-center gap-2 rounded-full bg-fg px-5 py-3 text-sm font-medium text-bg transition-colors hover:bg-accent hover:text-accent-fg"
-              >
-                See my work <ArrowIcon />
-              </Link>
-              <Link
-                href="#contact"
-                className="inline-flex items-center gap-2 rounded-full border border-line px-5 py-3 text-sm font-medium transition-colors hover:border-fg"
-              >
-                Get in touch
-              </Link>
-              {profile.cvUrl && (
-                <a
-                  href={profile.cvUrl}
-                  download
-                  className="inline-flex items-center gap-2 rounded-full border border-line px-5 py-3 text-sm font-medium transition-colors hover:border-fg"
-                >
-                  Download CV (PDF)
+              <h1 className="glow mt-3 text-[clamp(2rem,7vw,4rem)] leading-[1.05] font-extrabold text-accent">
+                {profile.name}
+              </h1>
+              <p className="mt-3 text-lg text-amber sm:text-xl">{profile.role}</p>
+
+              <p className="mt-8">
+                <span className="text-accent">$</span> cat summary.txt
+              </p>
+              <p className="mt-2 max-w-[46rem] leading-relaxed">{profile.tagline}</p>
+
+              <p className="mt-8">
+                <span className="text-accent">$</span> status
+              </p>
+              <dl className="mt-2 space-y-2 sm:space-y-1">
+                {current.length > 0 && (
+                  <div className="sm:grid sm:grid-cols-[9rem_1fr]">
+                    <dt className="text-muted">working on</dt>
+                    <dd className="flex flex-wrap gap-x-4">
+                      {current.map((p) => (
+                        <Link key={p.slug} href={`/projects/${p.slug}`} className="lnk">
+                          {p.title}
+                        </Link>
+                      ))}
+                    </dd>
+                  </div>
+                )}
+                {facts.map((f) => (
+                  <div key={f.label} className="sm:grid sm:grid-cols-[9rem_1fr]">
+                    <dt className="text-muted">{f.label}</dt>
+                    <dd>{f.value}</dd>
+                  </div>
+                ))}
+              </dl>
+
+              <p className="mt-8">
+                <span className="text-accent">$</span> ls links/
+              </p>
+              <p className="mt-2 flex flex-wrap gap-x-5 gap-y-2">
+                <a href={`mailto:${profile.email}`} className="lnk break-all">
+                  {profile.email}
                 </a>
-              )}
-            </div>
+                <a href={profile.cvUrl} download className="lnk">
+                  cv.pdf
+                </a>
+                {profile.links.map((l) => (
+                  <a key={l.href} href={l.href} target="_blank" rel="noreferrer" className="lnk">
+                    {l.label.toLowerCase()}
+                  </a>
+                ))}
+              </p>
 
-            <dl className="rise mt-16 grid max-w-2xl grid-cols-3 gap-6 border-t border-line pt-6 [animation-delay:320ms]">
-              {stats.map((s) => (
-                <div key={s.label}>
-                  <dt className="sr-only">{s.label}</dt>
-                  <dd className="font-serif text-4xl sm:text-5xl">
-                    <Counter value={s.value} />
-                  </dd>
-                  <dd className="mt-1 text-xs leading-snug text-muted sm:text-sm">{s.label}</dd>
-                </div>
-              ))}
-            </dl>
+              <Prompt
+                projects={projects.map((p) => ({ slug: p.slug, title: p.title }))}
+                email={profile.email}
+                cvUrl={profile.cvUrl}
+                github={github}
+                whoami={`${profile.name}, ${profile.role}`}
+              />
+            </div>
           </div>
         </section>
 
-        {/* Selected work: the three worth opening first */}
-        <section id="selected" className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
-          <SectionHeading
-            index="01"
-            title="Selected work"
-            kicker="Three I'd open first. The full list, in the order I built them, is further down."
-          />
-          <ul className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-            {featured.map((p, i) => {
-              const shot = p.preview?.[0] ?? p.desktop?.[0];
-              const phone = Boolean(p.preview?.[0]);
-              return (
-                <Reveal as="li" key={p.slug} delay={i * 80}>
-                  <Link
-                    href={`/projects/${p.slug}`}
-                    className="group flex h-full flex-col overflow-hidden rounded-2xl border border-line transition-colors hover:border-fg/30"
-                  >
-                    {shot && (
-                      <div className={`aspect-[16/10] overflow-hidden ${phone ? "bg-surface px-10 pt-6" : ""}`}>
-                        <Image
-                          src={shot.src}
-                          alt={`${p.title}: ${shot.caption}`}
-                          placeholder="blur"
-                          sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw"
-                          className={`h-full w-full object-top transition-transform duration-500 group-hover:scale-[1.03] ${
-                            phone ? "rounded-t-2xl border border-line object-cover" : "object-cover"
-                          }`}
-                        />
-                      </div>
-                    )}
-                    <div className="flex flex-1 flex-col p-5">
-                      <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-                        <ProjectAvatar project={p} />
-                        <h3 className="font-serif text-2xl leading-tight">{p.title}</h3>
-                      </div>
-                      <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">{p.tagline}</p>
-                      {p.brief?.shipping?.[0] && (
-                        <p className="mt-4 flex flex-wrap items-baseline gap-2 border-t border-line pt-4 text-sm">
-                          <span className="font-mono text-[11px] uppercase tracking-wider text-accent">
-                            {p.brief.shipping[0].label}
-                          </span>
-                          <span className="text-muted">{p.brief.shipping[0].value}</span>
-                        </p>
-                      )}
-                    </div>
-                  </Link>
-                </Reveal>
-              );
-            })}
-          </ul>
-        </section>
-
-        {/* About + skills */}
-        <section id="about" className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
-          <SectionHeading index="02" title="About" />
-          <div className="grid gap-14 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
-            <div className="space-y-6">
-              {profile.about.map((para, i) => (
-                <p
-                  key={i}
-                  className={i === 0 ? "font-serif text-2xl leading-snug sm:text-3xl" : "text-lg leading-relaxed text-muted"}
-                >
-                  {para}
+        {/* Experience, newest first */}
+        <Section id="experience" cmd="tail -r experience.log" label="Experience, newest first">
+          <ol className="space-y-10">
+            {experience.map((job) => (
+              <li key={job.company + job.role} className="max-w-[50rem]">
+                <p className="text-sm text-amber">
+                  [{job.start} → {job.end}]{job.location && <span className="text-muted"> {job.location}</span>}
                 </p>
-              ))}
-
-              <Spotlight className="grid gap-4 pt-4 sm:grid-cols-[1.4fr_1fr]">
-                <div className="spotlight rounded-2xl border border-line p-5 transition-colors hover:border-fg/30">
-                  <h3 className="font-mono text-xs uppercase tracking-wider text-muted">Education</h3>
-                  <ul className="mt-4 space-y-4">
-                    {education.map((e) => (
-                      <li key={e.school}>
-                        <p className="font-medium leading-snug">{e.school}</p>
-                        <p className="mt-1 text-sm leading-relaxed text-muted">{e.detail}</p>
-                        <p className="mt-1 font-mono text-[11px] uppercase tracking-wider text-accent">{e.period}</p>
-                      </li>
+                <h3 className="mt-1 text-lg leading-snug font-bold">
+                  {job.role} <span className="text-accent">@ {job.company}</span>
+                </h3>
+                <p className="mt-3 leading-relaxed">{job.summary}</p>
+                <ul className="term-list mt-3 space-y-2 leading-relaxed">
+                  {job.points.map((pt) => (
+                    <li key={pt}>{pt}</li>
+                  ))}
+                </ul>
+                <StackLine items={job.stack} className="mt-3" />
+                {job.projects && (
+                  <p className="mt-3 flex flex-wrap gap-x-5 gap-y-1">
+                    {job.projects.map((pr) => (
+                      <Link key={pr.slug} href={`/projects/${pr.slug}`} className="lnk">
+                        {pr.label}
+                      </Link>
                     ))}
-                  </ul>
-                </div>
-                <div className="spotlight rounded-2xl border border-line p-5 transition-colors hover:border-fg/30">
-                  <h3 className="font-mono text-xs uppercase tracking-wider text-muted">Languages</h3>
-                  <ul className="mt-4 space-y-3">
-                    {languages.map((l) => (
-                      <li key={l.name} className="flex items-baseline justify-between gap-3">
-                        <span className="font-medium">{l.name}</span>
-                        <span className="text-sm text-muted">{l.level}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </Spotlight>
-            </div>
-            <div className="self-start divide-y divide-line border-y border-line">
-              {skills.map((g) => (
-                <div key={g.group} className="grid gap-3 py-5 sm:grid-cols-[9rem_1fr]">
-                  <h3 className="font-mono text-xs uppercase tracking-wider text-muted sm:pt-1">{g.group}</h3>
-                  <ul className="flex flex-wrap gap-x-4 gap-y-1.5 text-[15px]">
-                    {g.items.map((s) => (
-                      <li key={s}>{s}</li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Experience */}
-        <section id="experience" className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
-          <SectionHeading
-            index="03"
-            title="Experience"
-            kicker="The companies I've worked for, from my first day to now."
-          />
-          <ol className="relative space-y-12 border-l border-line pl-6 sm:space-y-16 sm:pl-10">
-            {experience.map((job, i) => (
-              <Reveal as="li" key={job.company + job.role} delay={i * 60} className="relative">
-                <span
-                  className="absolute top-2 -left-[calc(1.5rem+4.5px)] size-2 rounded-full bg-accent ring-4 ring-bg sm:-left-[calc(2.5rem+4.5px)]"
-                  aria-hidden
-                />
-                <div className="grid gap-4 lg:grid-cols-[14rem_1fr] lg:gap-10">
-                  <div className="font-mono text-xs uppercase tracking-wider text-muted lg:pt-2">
-                    <p>{job.start === job.end ? job.start : `${job.start} — ${job.end}`}</p>
-                    {job.location && <p className="mt-1 opacity-70">{job.location}</p>}
-                  </div>
-                  <div>
-                    <h3 className="font-serif text-3xl leading-tight sm:text-4xl">
-                      {job.role} <span className="text-muted italic">at</span> {job.company}
-                    </h3>
-                    <p className="mt-3 max-w-2xl leading-relaxed text-muted">{job.summary}</p>
-                    <ul className="mt-5 max-w-2xl space-y-2.5">
-                      {job.points.map((pt) => (
-                        <li key={pt} className="flex gap-3 leading-relaxed">
-                          <span className="mt-2.5 h-px w-3 shrink-0 bg-accent" aria-hidden />
-                          {pt}
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="mt-5 flex flex-wrap gap-1.5">
-                      {job.stack.map((s) => (
-                        <Tag key={s}>{s}</Tag>
-                      ))}
-                    </div>
-                    {job.projects && (
-                      <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
-                        {job.projects.map((pr) => (
-                          <Link
-                            key={pr.slug}
-                            href={`/projects/${pr.slug}`}
-                            className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-accent hover:underline hover:underline-offset-4"
-                          >
-                            {pr.label} <ArrowIcon className="size-3.5" />
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </ol>
-        </section>
-
-        {/* Projects, oldest first */}
-        <section id="work" className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
-          <SectionHeading
-            index="04"
-            title="All projects"
-            kicker="Everything, in the order I built it, up to what I'm working on now."
-          />
-          <ol className="divide-y divide-line border-y border-line">
-            {projects.map((p, i) => (
-              <li key={p.slug}>
-                {/* Grouped by the year each project finished, unless timelineYear says otherwise. */}
-                {(p.timelineYear ?? p.year.slice(-4)) !==
-                  (projects[i - 1]?.timelineYear ?? projects[i - 1]?.year.slice(-4)) && (
-                  <p className="year-marker flex items-center gap-4 bg-bg/80 py-6 font-serif text-5xl text-accent sm:text-6xl" aria-hidden>
-                    {p.timelineYear ?? p.year.slice(-4)}
-                    <span className="h-px flex-1 bg-line" />
                   </p>
                 )}
-                <Reveal>
-                  <Link
-                    href={`/projects/${p.slug}`}
-                    className="group grid gap-4 py-8 transition-colors sm:grid-cols-[4rem_1fr_auto] sm:gap-8 sm:py-10"
-                  >
-                  <span className="font-mono text-sm text-muted transition-colors group-hover:text-accent">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <div className="min-w-0">
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                      <ProjectAvatar project={p} />
-                      <h3 className="font-serif text-3xl leading-tight transition-transform duration-300 group-hover:translate-x-1 sm:text-5xl">
-                        {p.title}
-                      </h3>
-                      <StatusDot status={p.status} />
-                    </div>
-                    <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">{p.tagline}</p>
-                    {p.related && (
-                      <p className="mt-3 font-mono text-[11px] uppercase tracking-wider text-accent">
-                        ↔ One system with {p.related.label}
-                      </p>
-                    )}
-                    {p.flow && (
-                      <p className="mt-4 font-mono text-xs leading-relaxed text-muted">
-                        {p.flow.map((step, j) => {
-                          const title = typeof step === "string" ? step : step.title;
-                          return (
-                            <span key={title}>
-                              {j > 0 && <span className="px-1.5 text-accent">→</span>}
-                              {title}
-                            </span>
-                          );
-                        })}
-                      </p>
-                    )}
-                    <div className="mt-5 flex flex-wrap gap-1.5">
-                      {p.stack.slice(0, 6).map((s) => (
-                        <Tag key={s}>{s}</Tag>
-                      ))}
-                    </div>
-                    {!p.preview && p.desktop?.[0] && (
-                      <div className="mt-8 max-w-3xl overflow-hidden rounded-xl border border-line shadow-lg shadow-black/10">
-                        <Image
-                          src={p.desktop[0].src}
-                          alt={`${p.title}: ${p.desktop[0].caption}`}
-                          placeholder="blur"
-                          sizes="(min-width: 1024px) 768px, 100vw"
-                          className="aspect-[16/9] w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.015]"
-                        />
-                      </div>
-                    )}
-                    {p.preview && (
-                      <div className="mt-8 grid max-w-3xl grid-cols-3 gap-3 sm:grid-cols-4 sm:gap-4">
-                        {p.preview
-                          .slice(0, 4)
-                          .map((shot, j) => (
-                            <Image
-                              key={shot.caption}
-                              src={shot.src}
-                              alt={`${p.title}: ${shot.caption}`}
-                              placeholder="blur"
-                              sizes="(min-width: 640px) 180px, 30vw"
-                              className={`aspect-[393/852] w-full rounded-2xl border border-line object-cover object-top shadow-lg shadow-black/10 transition-transform duration-500 group-hover:-translate-y-1 ${j === 3 ? "hidden sm:block" : ""}`}
-                              style={{ transitionDelay: `${j * 50}ms` }}
-                            />
-                          ))}
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex items-start gap-3 font-mono text-sm text-muted sm:flex-col sm:items-end">
-                    <span>{p.year}</span>
-                    <span className="grid size-11 place-items-center rounded-full border border-line transition-colors group-hover:border-accent group-hover:bg-accent group-hover:text-accent-fg">
-                      <ArrowIcon />
-                    </span>
-                    </div>
-                  </Link>
-                </Reveal>
               </li>
             ))}
           </ol>
-        </section>
+        </Section>
 
-        {/* Contact */}
-        <section id="contact" className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-32">
-          <div className="border-t border-line pt-6">
-            <p className="font-mono text-xs tracking-widest text-accent">05</p>
-            <h2 className="mt-6 max-w-4xl font-serif text-[clamp(2.75rem,8vw,6.5rem)] leading-[0.95] tracking-tight">
-              Have something worth building? <span className="italic text-accent">Let&apos;s talk.</span>
-            </h2>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
-              Based in {profile.location}, working in {languages.map((l) => l.name).join(" and ")}. {profile.availability}: mobile apps,
-              web platforms and AI products.
-            </p>
-            <div className="mt-12 flex flex-wrap items-center gap-3">
-              {profile.email && (
-                <a
-                  href={`mailto:${profile.email}`}
-                  className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-medium text-accent-fg transition-opacity hover:opacity-90"
-                >
-                  {profile.email} <ArrowIcon />
-                </a>
-              )}
-              {profile.links.map((l) => (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-line px-6 py-3.5 text-sm font-medium transition-colors hover:border-fg"
-                >
-                  {l.label} <ArrowIcon />
-                </a>
-              ))}
-            </div>
+        {/* Projects as a git log: current work on top, the first project at the bottom */}
+        <Section id="projects" cmd="git log --graph projects/" label="Projects, from what I'm building now back to the first one">
+          <ol className="border-l border-accent/50">
+            {projects.map((p, i) => (
+              <li key={p.slug} className="relative grid gap-x-6 gap-y-3 pb-10 pl-5 last:pb-0 sm:grid-cols-[1fr_9rem] sm:pl-7">
+                <span aria-hidden className="absolute top-1.5 -left-[5px] size-[9px] bg-accent" />
+                <div className="min-w-0">
+                  <p className="text-sm">
+                    <span className="text-amber">{p.year}</span>
+                    {i === 0 && <span className="text-accent"> (HEAD -&gt; now)</span>}
+                    {i === projects.length - 1 && <span className="text-accent"> (root)</span>}
+                    <span className="text-muted"> [{p.status.toLowerCase()}]</span>
+                  </p>
+                  <h3 className="mt-1 flex items-center gap-2.5 text-lg leading-snug font-bold">
+                    <ProjectAvatar project={p} size="sm" />
+                    <Link href={`/projects/${p.slug}`} className="hover:text-accent">
+                      {p.title}
+                    </Link>
+                  </h3>
+                  <p className="mt-2 max-w-[42rem] leading-relaxed">{p.tagline}</p>
+                  <p className="mt-1.5 text-sm text-muted">{p.role}</p>
+                  <StackLine items={p.stack.slice(0, 6)} className="mt-1.5" />
+                </div>
+                <Thumb project={p} />
+              </li>
+            ))}
+          </ol>
+        </Section>
+
+        <Section id="about" cmd="cat about.md" label="About">
+          <div className="max-w-[46rem] space-y-4 leading-relaxed">
+            {profile.about.map((para, i) => (
+              <p key={i}>{para}</p>
+            ))}
           </div>
-        </section>
+        </Section>
+
+        <Section cmd="skills --list" label="Skills">
+          <dl className="max-w-[50rem] space-y-3">
+            {skills.map((g) => (
+              <div key={g.group} className="grid gap-1 sm:grid-cols-[11rem_1fr] sm:gap-6">
+                <dt className="text-accent">{g.group}</dt>
+                <dd className="leading-relaxed text-muted">{g.items.join(", ")}</dd>
+              </div>
+            ))}
+          </dl>
+        </Section>
+
+        <Section cmd="cat education.txt" label="Education">
+          <ul className="max-w-[46rem] space-y-5">
+            {education.map((e) => (
+              <li key={e.school}>
+                <p className="text-sm text-amber">[{e.period}]</p>
+                <p className="mt-1 leading-snug font-bold">{e.school}</p>
+                <p className="mt-1 leading-relaxed text-muted">{e.detail}</p>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-6 text-muted">languages: {languages.map((l) => `${l.name} (${l.level.toLowerCase()})`).join(", ")}</p>
+        </Section>
+
+        <Section id="contact" cmd="./contact.sh" label="Contact">
+          <p className="leading-relaxed text-muted">{profile.availability}. Email is the fastest way to reach me.</p>
+          <p className="mt-3">
+            <a href={`mailto:${profile.email}`} className="lnk text-[clamp(1rem,3.6vw,1.75rem)] font-bold break-all">
+              {profile.email}
+            </a>
+          </p>
+          <p className="mt-5 flex flex-wrap gap-x-5 gap-y-2">
+            {profile.links.map((l) => (
+              <a key={l.href} href={l.href} target="_blank" rel="noreferrer" className="lnk">
+                {l.label.toLowerCase()}
+              </a>
+            ))}
+            <a href={profile.cvUrl} download className="lnk">
+              cv.pdf
+            </a>
+          </p>
+        </Section>
       </main>
       <Footer />
     </>
   );
+}
+
+/** A small look at the project. Projects with no screenshots show nothing. */
+function Thumb({ project: p }: { project: Project }) {
+  const phones = p.preview?.slice(0, 2);
+  const desktop = p.desktop?.[0];
+  const look = "border border-line object-cover object-top grayscale transition hover:grayscale-0";
+
+  if (phones?.length) {
+    return (
+      <div className="flex gap-2 sm:justify-end" aria-hidden>
+        {phones.map((shot) => (
+          <Image key={shot.caption} src={shot.src} alt="" sizes="64px" className={`aspect-[393/852] w-16 ${look}`} />
+        ))}
+      </div>
+    );
+  }
+  if (!desktop) return null;
+  return <Image src={desktop.src} alt="" sizes="144px" className={`aspect-[16/10] w-36 self-start ${look}`} aria-hidden />;
 }
