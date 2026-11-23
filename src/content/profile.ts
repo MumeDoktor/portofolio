@@ -10,7 +10,7 @@ export const profile = {
   location: "Sarajevo, Bosnia and Herzegovina",
   availability: "Available now, full-time or part-time",
   tagline:
-    "Full-stack and mobile engineer with three years of professional experience across Flutter, TypeScript/Next.js and .NET. Now at Zora AI, working on AWS, server-side rendering and an MCP server that lets Claude manage a real-estate catalogue. I also built and published FitMind AI to Google Play on my own.",
+    "Full-stack and mobile engineer with three years of professional experience across Flutter, TypeScript/Next.js and .NET. Now at Zora AI, rebuilding a real-estate platform in Astro on Supabase and AWS, with AI listing and CRM automation and an MCP server that lets Claude manage the property catalogue. I also built and published FitMind AI to Google Play on my own.",
   about: [
     "I wrote my first lines of code at 16. Four years later I build mobile apps, web platforms and AI agents, and I've shipped my own app to Google Play.",
     "I'm based in Sarajevo and in my second year at the Faculty of Information Technologies at Džemal Bijedić University of Mostar.",
@@ -22,7 +22,7 @@ export const profile = {
     { label: "LinkedIn", href: "https://www.linkedin.com/in/amar-muminovi%C4%87-ab91b6353/" },
     { label: "GitHub", href: "https://github.com/MumeDoktor" },
   ],
-  cvUrl: "/cv/Amar-Muminovic-CV.pdf",
+  cvUrl: "/cv/Amar-Muminovic-CV.pdf?v=2026-11",
 };
 
 export const education: { school: string; detail: string; period: string }[] = [
@@ -66,16 +66,40 @@ export const experience: Experience[] = [
     end: "Present",
     location: "Remote · Belgrade",
     summary:
-      "Client work on the 8rooms real-estate website: moving its property catalogue onto AWS with server-side rendering, and giving Claude a way to manage the listings.",
+      "Client work on the 8rooms real-estate platform: rebuilding the site in Astro, moving its property catalogue to Supabase and AWS, automating listings and the CRM with AI, and giving Claude a way to manage the catalogue.",
     points: [
-      "Moved the property catalogue off Payload CMS into a database table served by an edge function, so a listing edit reaches the live site in about a minute with no rebuild.",
-      "Wrote the migration scripts that moved the listings and roughly 1,400 images across 160 properties to S3, and redirected old property URLs to the new ones.",
+      "Rebuilt the 8rooms platform in Astro with a luxury redesign across the homepage, property listings, investment pages, project pages and mobile, following the client's brand guidelines.",
+      "Moved the property catalogue off Payload CMS into Supabase, served by an edge function, so a listing edit reaches the live site in about a minute with no rebuild.",
+      "Wrote the migration scripts that moved the listings and roughly 1,400 images across 160 properties to S3, with WebP conversion and generated thumbnails, and redirected old property URLs to the new ones.",
       "Moved property pages, listings and a properties sitemap to server-side rendering on AWS Amplify through a custom adapter, so Google and WhatsApp/Viber link previews get the listing data in the first HTML.",
       "Cut the listings payload from 496 KB to 33 KB with compression, kept pages fast after cache expiry, added a 5-minute warm-up job against cold starts, and served images through CloudFront with generated thumbnails.",
       "Made the contact form save every inquiry to the database before emailing it, with a column that flags unsent ones and a honeypot field against bots.",
-      "Built an MCP server that lets Claude read and edit catalogue listings and images.",
+      "Built a Claude MCP server for AI-assisted catalogue management: Claude can create, edit, publish and delete listings and images, with per-user access keys and safeguards against accidental deletion.",
+      "Built an AI listing pipeline across Monday.com, OpenAI, Jira and the website: it validates property data, processes images, writes bilingual descriptions and SEO content, and routes each listing through copywriter review to publishing.",
+      "Automated Monday.com CRM workflows: lead distribution, agent assignment, recognising returning clients, welcome emails and syncing the sales and listing boards.",
+      "Set up Google Tag Manager and GA4 events for page views, searches, filters and inquiries, plus the Meta Conversions API with lead-event deduplication.",
+      "Built a FastAPI service on AWS EC2 behind a load balancer, provisioned with Terraform, with AWS monitoring, alarms, tagging and certificates.",
     ],
-    stack: ["TypeScript", "Node.js", "AWS S3", "CloudFront", "Amplify", "SSR", "Edge functions", "MCP", "Payload CMS (migrated off)"],
+    stack: [
+      "Astro",
+      "TypeScript",
+      "Supabase",
+      "PostgreSQL",
+      "Python",
+      "FastAPI",
+      "OpenAI API",
+      "Claude MCP",
+      "Monday.com",
+      "Jira",
+      "AWS S3",
+      "CloudFront",
+      "Amplify",
+      "EC2",
+      "Terraform",
+      "GA4",
+      "GTM",
+      "Meta Conversions API",
+    ],
     projects: [{ slug: "8rooms-zora-ai", label: "8rooms" }],
   },
   {
@@ -160,7 +184,7 @@ export const skills: { group: string; items: string[] }[] = [
   },
   {
     group: "Frontend",
-    items: ["React", "Next.js (App Router)", "TypeScript", "Angular", "Tailwind CSS", "shadcn/ui", "Server-side rendering"],
+    items: ["React", "Next.js (App Router)", "Astro", "TypeScript", "Angular", "Tailwind CSS", "shadcn/ui", "Server-side rendering"],
   },
   {
     group: "Backend",
@@ -168,7 +192,7 @@ export const skills: { group: string; items: string[] }[] = [
   },
   {
     group: "Databases",
-    items: ["PostgreSQL", "SQL Server", "MongoDB", "SQLite", "Firestore", "Prisma", "Drizzle"],
+    items: ["PostgreSQL", "SQL Server", "MongoDB", "SQLite", "Firestore", "Supabase", "Prisma", "Drizzle"],
   },
   {
     group: "AI / LLM",
@@ -176,10 +200,10 @@ export const skills: { group: string; items: string[] }[] = [
   },
   {
     group: "AWS",
-    items: ["S3", "CloudFront", "Amplify", "Lambda", "Amazon SES"],
+    items: ["S3", "CloudFront", "Amplify", "EC2", "Lambda", "Terraform", "Amazon SES"],
   },
   {
     group: "Cloud & tools",
-    items: ["Firebase", "Firebase Cloud Functions", "Cloudflare R2", "Vercel", "Docker", "Git", "Claude Code"],
+    items: ["Firebase", "Firebase Cloud Functions", "Cloudflare R2", "Vercel", "Docker", "Git", "Jira", "Monday.com", "Google Tag Manager", "GA4", "Claude Code"],
   },
 ];
